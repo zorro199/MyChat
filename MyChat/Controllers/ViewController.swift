@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import FirebaseAuth
 import SnapKit
 
 class ViewController: UIViewController {
@@ -28,10 +29,19 @@ class ViewController: UIViewController {
     //MARK: - Settings view
     
     private func setNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Выйти", style: .plain, target: self, action: #selector(handleLogin))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogin))
+        if Auth.auth().currentUser == nil {
+            perform(#selector(handleLogin))
+        }
     }
     
     @objc private func handleLogin() {
+        do {
+            try Auth.auth().signOut()
+        } catch let ErrorSignout {
+            print(ErrorSignout)
+        }
+        
         let loginViewController = LoginViewController()
         loginViewController.modalPresentationStyle = .fullScreen
         present(loginViewController, animated: false)

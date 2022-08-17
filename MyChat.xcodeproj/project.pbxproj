@@ -16,7 +16,6 @@
 		C1861A6828A80DF9005D44AF /* Extensions + Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */; };
 		C1861A6A28A812B4005D44AF /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6928A812B4005D44AF /* Extension + UIColor.swift */; };
 		C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1ABC41B28A95E250050F967 /* Assets.xcassets */; };
-		C1AD34CE28AA92D6001C04B4 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1AD34CD28AA92D6001C04B4 /* GoogleService-Info.plist */; };
 		C1AD34D128AAB3A8001C04B4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D028AAB3A8001C04B4 /* FirebaseAnalytics */; };
 		C1AD34D928AAB3A8001C04B4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D828AAB3A8001C04B4 /* FirebaseAuth */; };
 		C1AD34E128AAB3A8001C04B4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34E028AAB3A8001C04B4 /* FirebaseFirestore */; };
@@ -24,6 +23,7 @@
 		C1AD34F528AAB3A8001C04B4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34F428AAB3A8001C04B4 /* FirebaseStorage */; };
 		C1AD34F828AAC4F1001C04B4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34F728AAC4F1001C04B4 /* FirebaseDatabase */; };
 		C1AD34FA28AAC4F1001C04B4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34F928AAC4F1001C04B4 /* FirebaseStorage */; };
+		C1CA469628AC212500EDD14A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1CA469528AC212500EDD14A /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,7 +37,7 @@
 		C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + Subviews.swift"; sourceTree = "<group>"; };
 		C1861A6928A812B4005D44AF /* Extension + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIColor.swift"; sourceTree = "<group>"; };
 		C1ABC41B28A95E250050F967 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C1AD34CD28AA92D6001C04B4 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		C1CA469528AC212500EDD14A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +84,7 @@
 				C1861A6628A80DD5005D44AF /* Extensions */,
 				C1861A5728A7FC86005D44AF /* LaunchScreen.storyboard */,
 				C1ABC41B28A95E250050F967 /* Assets.xcassets */,
-				C1AD34CD28AA92D6001C04B4 /* GoogleService-Info.plist */,
+				C1CA469528AC212500EDD14A /* GoogleService-Info.plist */,
 				C1861A5A28A7FC86005D44AF /* Info.plist */,
 			);
 			path = MyChat;
@@ -184,7 +184,7 @@
 			files = (
 				C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */,
 				C1861A5928A7FC86005D44AF /* LaunchScreen.storyboard in Resources */,
-				C1AD34CE28AA92D6001C04B4 /* GoogleService-Info.plist in Resources */,
+				C1CA469628AC212500EDD14A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
