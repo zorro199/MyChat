@@ -9,12 +9,14 @@
 /* Begin PBXBuildFile section */
 		C1861A4D28A7FC81005D44AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A4C28A7FC81005D44AF /* AppDelegate.swift */; };
 		C1861A4F28A7FC81005D44AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A4E28A7FC81005D44AF /* SceneDelegate.swift */; };
-		C1861A5128A7FC81005D44AF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A5028A7FC81005D44AF /* ViewController.swift */; };
+		C1861A5128A7FC81005D44AF /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A5028A7FC81005D44AF /* MessagesViewController.swift */; };
 		C1861A5928A7FC86005D44AF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C1861A5728A7FC86005D44AF /* LaunchScreen.storyboard */; };
 		C1861A6228A8018D005D44AF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6128A8018D005D44AF /* LoginViewController.swift */; };
 		C1861A6528A801C9005D44AF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1861A6428A801C9005D44AF /* SnapKit */; };
 		C1861A6828A80DF9005D44AF /* Extensions + Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */; };
 		C1861A6A28A812B4005D44AF /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6928A812B4005D44AF /* Extension + UIColor.swift */; };
+		C1AB8DDD28AE94050070974B /* NewMessageVewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */; };
+		C1AB8DE028AEC7FF0070974B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDF28AEC7FF0070974B /* User.swift */; };
 		C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1ABC41B28A95E250050F967 /* Assets.xcassets */; };
 		C1AD34D128AAB3A8001C04B4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D028AAB3A8001C04B4 /* FirebaseAnalytics */; };
 		C1AD34D928AAB3A8001C04B4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D828AAB3A8001C04B4 /* FirebaseAuth */; };
@@ -30,12 +32,14 @@
 		C1861A4928A7FC81005D44AF /* MyChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1861A4C28A7FC81005D44AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1861A4E28A7FC81005D44AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C1861A5028A7FC81005D44AF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C1861A5028A7FC81005D44AF /* MessagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesViewController.swift; sourceTree = "<group>"; };
 		C1861A5828A7FC86005D44AF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C1861A5A28A7FC86005D44AF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1861A6128A8018D005D44AF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + Subviews.swift"; sourceTree = "<group>"; };
 		C1861A6928A812B4005D44AF /* Extension + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIColor.swift"; sourceTree = "<group>"; };
+		C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageVewController.swift; sourceTree = "<group>"; };
+		C1AB8DDF28AEC7FF0070974B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C1ABC41B28A95E250050F967 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C1CA469528AC212500EDD14A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -80,6 +84,7 @@
 			children = (
 				C1861A4C28A7FC81005D44AF /* AppDelegate.swift */,
 				C1861A4E28A7FC81005D44AF /* SceneDelegate.swift */,
+				C1AB8DDE28AEC7D20070974B /* Data */,
 				C1861A6028A8015C005D44AF /* Controllers */,
 				C1861A6628A80DD5005D44AF /* Extensions */,
 				C1861A5728A7FC86005D44AF /* LaunchScreen.storyboard */,
@@ -93,8 +98,9 @@
 		C1861A6028A8015C005D44AF /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				C1861A5028A7FC81005D44AF /* ViewController.swift */,
 				C1861A6128A8018D005D44AF /* LoginViewController.swift */,
+				C1861A5028A7FC81005D44AF /* MessagesViewController.swift */,
+				C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -106,6 +112,14 @@
 				C1861A6928A812B4005D44AF /* Extension + UIColor.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C1AB8DDE28AEC7D20070974B /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				C1AB8DDF28AEC7FF0070974B /* User.swift */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,9 +209,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1AB8DE028AEC7FF0070974B /* User.swift in Sources */,
 				C1861A6828A80DF9005D44AF /* Extensions + Subviews.swift in Sources */,
+				C1AB8DDD28AE94050070974B /* NewMessageVewController.swift in Sources */,
 				C1861A6228A8018D005D44AF /* LoginViewController.swift in Sources */,
-				C1861A5128A7FC81005D44AF /* ViewController.swift in Sources */,
+				C1861A5128A7FC81005D44AF /* MessagesViewController.swift in Sources */,
 				C1861A4D28A7FC81005D44AF /* AppDelegate.swift in Sources */,
 				C1861A4F28A7FC81005D44AF /* SceneDelegate.swift in Sources */,
 				C1861A6A28A812B4005D44AF /* Extension + UIColor.swift in Sources */,

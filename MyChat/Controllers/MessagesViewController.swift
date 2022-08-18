@@ -7,9 +7,10 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseDatabase
 import SnapKit
 
-class ViewController: UIViewController {
+class MessagesViewController: UIViewController {
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -22,6 +23,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        checkUser()
         setNavigationBar()
         setViews()
     }
@@ -29,13 +31,33 @@ class ViewController: UIViewController {
     //MARK: - Settings view
     
     private func setNavigationBar() {
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogin))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose , target: self, action: #selector(handleNewMessage))
+    }
+    
+    @objc private func handleNewMessage() {
+        let newMessageVC = NewMessageVewController()
+        let navigationVC = UINavigationController(rootViewController: newMessageVC)
+        navigationVC.modalPresentationStyle = .fullScreen
+        present(navigationVC, animated: true)
+    }
+    
+    private func checkUser() {
         if Auth.auth().currentUser == nil {
-            perform(#selector(handleLogin))
+            perform(#selector(handleLogout))
+        } else {
+            let uid = Auth.auth().currentUser?.uid
+            Database.database().reference().child("users").child(uid!).observeSingleEvent(of: .value) { snapshot in
+                if let dictionary = snapshot.value as? [String: AnyObject] {
+                    DispatchQueue.main.async {
+                        self.navigationItem.title = dictionary["name"] as? String
+                    }
+                }
+            }
         }
     }
     
-    @objc private func handleLogin() {
+    @objc private func handleLogout() {
         do {
             try Auth.auth().signOut()
         } catch let ErrorSignout {

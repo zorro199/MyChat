@@ -162,6 +162,7 @@ class LoginViewController: UIViewController {
                     }
                 }
              }
+        self.dismiss(animated: true )
     }
     
     //MARK: - viewDidLoad
