@@ -13,12 +13,13 @@ import FirebaseCore
 
 class NewMessageVewController: UIViewController {
     
-    let users = [User]()
+    var users = [Users]()
         
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(UsersTableViewCell.self, forCellReuseIdentifier: UsersTableViewCell.reuseId)
         return tableView
     }()
     
@@ -33,19 +34,18 @@ class NewMessageVewController: UIViewController {
     }
     
     private func fetchUser() {
-        DispatchQueue.main.async {
-            Database.database().reference().child("users").observe(.childAdded) { snapshot in
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-                    let user = User(dictionary: dictionary)
-                    user.setValuesForKeys(dictionary)
-                    print(user.name)
+        Database.database().reference().child("users").observe(.childAdded) { snapshot in
+            if let dictionary = snapshot.value as? [String: Any] {
+                do {
+                    let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
+                    let user = try? JSONDecoder().decode(Users.self, from: data!)
+                    self.users.append(user!)
+                    DispatchQueue.main.async {
+                        self.tableView.reloadData()
+                    }
                 }
-                
-            } withCancel: { error in
-                print(error)
             }
         }
-
     }
     
     //MARK: - Settings view
@@ -74,12 +74,12 @@ class NewMessageVewController: UIViewController {
 extension NewMessageVewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return users.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .subtitle, reuseIdentifier: "cell")
-        cell.textLabel?.text = "Test"
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: UsersTableViewCell.reuseId, for: indexPath) as? UsersTableViewCell else { return UITableViewCell() }
+        
         return cell
     }
     

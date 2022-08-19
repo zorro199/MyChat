@@ -8,19 +8,23 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import FirebaseStorage
 
 class LoginViewController: UIViewController {
     
     //MARK: - VIEW
     
-    private lazy var imageAvatar: UIImageView = {
+     lazy var imageAvatar: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "chat-icon")
         imageView.contentMode = .scaleAspectFit
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapAvatar))
+        imageView.addGestureRecognizer(tapGesture)
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
 
-    private lazy var inputsContainerView: UIView = {
+     lazy var inputsContainerView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(r: 28, g: 36, b: 31)
         view.layer.cornerRadius = 10
@@ -28,7 +32,7 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-    private lazy var nameTextField: UITextField = {
+     lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter your login"
         textField.backgroundColor = .white
@@ -46,7 +50,7 @@ class LoginViewController: UIViewController {
         return label
     }()
     
-    private lazy var emailTextField: UITextField = {
+     lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter your email"
         textField.backgroundColor = .white
@@ -54,7 +58,7 @@ class LoginViewController: UIViewController {
         return textField
     }()
     
-    private lazy var passwordTextField: UITextField = {
+     lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter your password"
         textField.backgroundColor = .white
@@ -135,34 +139,6 @@ class LoginViewController: UIViewController {
             }
             self.dismiss(animated: true )
         }
-    }
-    
-    @objc private func handleRegister() {
-        guard let name = nameTextField.text , let email = emailTextField.text, let password = passwordTextField.text else {
-            print("-----error Text")
-            return }
-        
-            Auth.auth().createUser(withEmail: email, password: password) { user, error in
-                if error != nil {
-                    print("------Error Auth", error?.localizedDescription ?? "")
-                    return
-                }
-                
-                guard let uid = user?.user.uid else { return }
-                
-                let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
-                 let userRefernce = refernces.child("users").child(uid)
-                
-                let values = ["name": name, "email": email]
-                
-                userRefernce.updateChildValues(values) { error, refernces in
-                    if error != nil {
-                        print("------Error refernces", error?.localizedDescription ?? "")
-                        return
-                    }
-                }
-             }
-        self.dismiss(animated: true )
     }
     
     //MARK: - viewDidLoad

@@ -57,6 +57,8 @@ class MessagesViewController: UIViewController {
         }
     }
     
+    //MARK: - Handles @objc
+    
     @objc private func handleLogout() {
         do {
             try Auth.auth().signOut()
@@ -69,6 +71,8 @@ class MessagesViewController: UIViewController {
         present(loginViewController, animated: false)
         
     }
+    
+    //MARK: - Set Views
     
     private func setViews() {
         view.addSubviews([tableView])

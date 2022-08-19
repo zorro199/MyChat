@@ -15,8 +15,10 @@
 		C1861A6528A801C9005D44AF /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1861A6428A801C9005D44AF /* SnapKit */; };
 		C1861A6828A80DF9005D44AF /* Extensions + Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */; };
 		C1861A6A28A812B4005D44AF /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6928A812B4005D44AF /* Extension + UIColor.swift */; };
+		C1A92A0D28AFF8A800F8B9A6 /* UsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */; };
+		C1A92A0F28B003EC00F8B9A6 /* LoginViewController+Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */; };
 		C1AB8DDD28AE94050070974B /* NewMessageVewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */; };
-		C1AB8DE028AEC7FF0070974B /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDF28AEC7FF0070974B /* User.swift */; };
+		C1AB8DE028AEC7FF0070974B /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDF28AEC7FF0070974B /* Users.swift */; };
 		C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1ABC41B28A95E250050F967 /* Assets.xcassets */; };
 		C1AD34D128AAB3A8001C04B4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D028AAB3A8001C04B4 /* FirebaseAnalytics */; };
 		C1AD34D928AAB3A8001C04B4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D828AAB3A8001C04B4 /* FirebaseAuth */; };
@@ -38,8 +40,10 @@
 		C1861A6128A8018D005D44AF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions + Subviews.swift"; sourceTree = "<group>"; };
 		C1861A6928A812B4005D44AF /* Extension + UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + UIColor.swift"; sourceTree = "<group>"; };
+		C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewCell.swift; sourceTree = "<group>"; };
+		C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+Handler.swift"; sourceTree = "<group>"; };
 		C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageVewController.swift; sourceTree = "<group>"; };
-		C1AB8DDF28AEC7FF0070974B /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		C1AB8DDF28AEC7FF0070974B /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		C1ABC41B28A95E250050F967 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C1CA469528AC212500EDD14A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -101,6 +105,7 @@
 				C1861A6128A8018D005D44AF /* LoginViewController.swift */,
 				C1861A5028A7FC81005D44AF /* MessagesViewController.swift */,
 				C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */,
+				C1A92A0B28AFF87D00F8B9A6 /* TableCells */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -110,14 +115,23 @@
 			children = (
 				C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */,
 				C1861A6928A812B4005D44AF /* Extension + UIColor.swift */,
+				C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		C1A92A0B28AFF87D00F8B9A6 /* TableCells */ = {
+			isa = PBXGroup;
+			children = (
+				C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */,
+			);
+			path = TableCells;
 			sourceTree = "<group>";
 		};
 		C1AB8DDE28AEC7D20070974B /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				C1AB8DDF28AEC7FF0070974B /* User.swift */,
+				C1AB8DDF28AEC7FF0070974B /* Users.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -209,13 +223,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C1AB8DE028AEC7FF0070974B /* User.swift in Sources */,
+				C1AB8DE028AEC7FF0070974B /* Users.swift in Sources */,
+				C1A92A0F28B003EC00F8B9A6 /* LoginViewController+Handler.swift in Sources */,
 				C1861A6828A80DF9005D44AF /* Extensions + Subviews.swift in Sources */,
 				C1AB8DDD28AE94050070974B /* NewMessageVewController.swift in Sources */,
 				C1861A6228A8018D005D44AF /* LoginViewController.swift in Sources */,
 				C1861A5128A7FC81005D44AF /* MessagesViewController.swift in Sources */,
 				C1861A4D28A7FC81005D44AF /* AppDelegate.swift in Sources */,
 				C1861A4F28A7FC81005D44AF /* SceneDelegate.swift in Sources */,
+				C1A92A0D28AFF8A800F8B9A6 /* UsersTableViewCell.swift in Sources */,
 				C1861A6A28A812B4005D44AF /* Extension + UIColor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
