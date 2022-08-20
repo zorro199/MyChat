@@ -22,36 +22,28 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
                     print("------Error Auth", error?.localizedDescription ?? "")
                     return
                 }
-                
+                guard let uid = user?.user.uid else { return }
                 //storage
                 
                 let storage = Storage.storage().reference().child("image.png")
-                let uploadData = self.imageAvatar.image!.pngData()!
-                
-                storage.putData(uploadData) { metaData, error in
+                guard let imageData = self.imageAvatar.image?.pngData() else { return }
+                storage.putData(imageData, metadata: nil) { (metaData: StorageMetadata?, error: Error?) in
                     if error != nil {
                         print("---Error metaData")
                         return
                     }
-                    print(metaData)
+                        
                 }
                 
-                
-                
-                // user
-                guard let uid = user?.user.uid else { return }
-                
-                let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
-                 let userRefernce = refernces.child("users").child(uid)
-                
-                let values = ["name": name, "email": email]
-                
-                userRefernce.updateChildValues(values) { error, refernces in
-                    if error != nil {
-                        print("------Error refernces", error?.localizedDescription ?? "")
-                        return
-                    }
-                }
+//                let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
+//                 let userRefernce = refernces.child("users").child(uid)
+//                let values = ["name": name, "email": email]
+//                userRefernce.updateChildValues(values) { error, refernces in
+//                    if error != nil {
+//                        print("------Error refernces", error?.localizedDescription ?? "")
+//                        return
+//                    }
+//                }
              }
         self.dismiss(animated: true )
     }
@@ -62,6 +54,18 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
         picker.isEditing = true
         present(picker, animated: true)
     }
+    
+    private func registerWithUserUID(uid: String, value: [String: Any]) {
+        let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
+        let userRefernce = refernces.child("users").child(uid)
+       userRefernce.updateChildValues(value) { error, refernces in
+           if error != nil {
+               print("------Error refernces", error?.localizedDescription ?? "")
+               return
+           }
+    }
+    
+    //MARK: - Image Picker
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         var selectedImage: UIImage?
@@ -82,4 +86,6 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
         dismiss(animated: true)
     }
     
+}
+
 }
