@@ -10,6 +10,7 @@ import Foundation
 struct Users: Codable {
     let email: String?
     let name: String?
+    let profileImage: String?
 }
 
 

@@ -13,7 +13,8 @@ class UsersTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        contentView.backgroundColor = .green
+        //contentView.backgroundColor = .green
+        
     }
     
     required init?(coder: NSCoder) {

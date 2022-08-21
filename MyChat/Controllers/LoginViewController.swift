@@ -14,13 +14,18 @@ class LoginViewController: UIViewController {
     
     //MARK: - VIEW
     
-     lazy var imageAvatar: UIImageView = {
+    lazy var imageAvatar: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "chat-icon")
+        imageView.image = UIImage(named: "avatar")
         imageView.contentMode = .scaleAspectFit
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTapAvatar))
         imageView.addGestureRecognizer(tapGesture)
         imageView.isUserInteractionEnabled = true
+        imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 80
+        imageView.layer.borderWidth = 3
+        imageView.layer.borderColor = UIColor.black.cgColor
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
@@ -76,15 +81,6 @@ class LoginViewController: UIViewController {
         button.layer.cornerRadius = 10
         button.addTarget(self, action: #selector(handleLoginRegister), for: .touchUpInside)
         return button
-    }()
-    
-    private lazy var titleEmpty: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 13)
-        label.textColor = .red
-        label.text = "Fields is empty"
-        label.isHidden = true
-        return label
     }()
     
     private lazy var loginSegmentController: UISegmentedControl = {
@@ -153,8 +149,7 @@ class LoginViewController: UIViewController {
     
     private func setViews() {
         view.addSubviews([loginSegmentController ,imageAvatar
-                          ,inputsContainerView, loginRegisterButton,
-                          titleEmpty, myChatLabel])
+                          ,inputsContainerView, loginRegisterButton, myChatLabel])
         inputsContainerView.addSubviews([nameTextField, loginLabel ,emailTextField, passwordTextField])
         setLayouts()
     }
@@ -169,14 +164,8 @@ class LoginViewController: UIViewController {
         imageAvatar.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(200)
-            $0.height.equalTo(200)
-        }
-        titleEmpty.snp.makeConstraints {
-            $0.bottom.equalTo(inputsContainerView.snp.top).offset(-30)
-            $0.centerX.equalToSuperview()
-            $0.height.equalTo(10)
-            $0.width.equalTo(200)
+            $0.width.equalTo(160)
+            $0.height.equalTo(160)
         }
         inputsContainerView.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()

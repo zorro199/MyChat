@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseDatabase
 import Firebase
 import FirebaseCore
+import SDWebImage
 
 class NewMessageVewController: UIViewController {
     
@@ -79,8 +80,15 @@ extension NewMessageVewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: UsersTableViewCell.reuseId, for: indexPath) as? UsersTableViewCell else { return UITableViewCell() }
-        
+        let user = users[indexPath.row]
+        // need to set dispatchGroup
+        if let imageProfile = user.profileImage {
+            cell.imageView?.sd_setImage(with: URL(string: imageProfile))
+            cell.imageView?.contentMode = .scaleAspectFill
+        }
+        cell.textLabel?.text = user.name
         return cell
     }
     
 }
+

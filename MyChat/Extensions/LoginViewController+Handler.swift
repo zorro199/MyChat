@@ -24,37 +24,28 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
                 }
                 guard let uid = user?.user.uid else { return }
                 //storage
-                
-                let storage = Storage.storage().reference().child("image.png")
-                guard let imageData = self.imageAvatar.image?.pngData() else { return }
-                storage.putData(imageData, metadata: nil) { (metaData: StorageMetadata?, error: Error?) in
+                let imageName = UUID().uuidString
+                let storage = Storage.storage().reference().child("profileImages").child("\(imageName).jpeg")
+                guard let imageData = self.imageAvatar.image?.jpegData(compressionQuality: 0.4) else { return }
+                storage.putData(imageData, metadata: nil) { metaData, error in
                     if error != nil {
                         print("---Error metaData")
                         return
                     }
-                        
+                    storage.downloadURL { url, error in
+                        if error != nil {
+                            print("---Error url")
+                            return
+                        }
+                        guard let urlImage = url?.absoluteString else { return }
+                        let value = ["name": name, "email": email, "profileImage": urlImage]
+                        self.registerWithUserUID(uid: uid, value: value)
+                    }
                 }
-                
-//                let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
-//                 let userRefernce = refernces.child("users").child(uid)
-//                let values = ["name": name, "email": email]
-//                userRefernce.updateChildValues(values) { error, refernces in
-//                    if error != nil {
-//                        print("------Error refernces", error?.localizedDescription ?? "")
-//                        return
-//                    }
-//                }
              }
         self.dismiss(animated: true )
     }
- 
-    @objc func handleTapAvatar() {
-        let picker = UIImagePickerController()
-        picker.delegate = self
-        picker.isEditing = true
-        present(picker, animated: true)
-    }
-    
+
     private func registerWithUserUID(uid: String, value: [String: Any]) {
         let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
         let userRefernce = refernces.child("users").child(uid)
@@ -64,28 +55,24 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
                return
            }
     }
+}
+    @objc func handleTapAvatar() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.isEditing = true
+        present(picker, animated: true)
+    }
     
     //MARK: - Image Picker
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        var selectedImage: UIImage?
-        
-        if let editedImage = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerImage")] as? UIImage {
-            selectedImage = editedImage
-        } else if let originalImages = info[UIImagePickerController.InfoKey(rawValue: "UIImagePickerControllerOriginalImage")] as? UIImage {
-            selectedImage = originalImages
-        }
-        
-        if let selectedImages = selectedImage {
-            self.imageAvatar.image = selectedImages
-        }
-        dismiss(animated: true)
+        picker.dismiss(animated: true)
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        self.imageAvatar.image = image
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
     }
-    
-}
+  }
 
-}

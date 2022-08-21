@@ -17,6 +17,8 @@
 		C1861A6A28A812B4005D44AF /* Extension + UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A6928A812B4005D44AF /* Extension + UIColor.swift */; };
 		C1A92A0D28AFF8A800F8B9A6 /* UsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */; };
 		C1A92A0F28B003EC00F8B9A6 /* LoginViewController+Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */; };
+		C1AB6B6C28B2B35500E9BA55 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = C1AB6B6B28B2B35500E9BA55 /* SDWebImage */; };
+		C1AB6B6E28B2B35500E9BA55 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1AB6B6D28B2B35500E9BA55 /* SDWebImageMapKit */; };
 		C1AB8DDD28AE94050070974B /* NewMessageVewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */; };
 		C1AB8DE028AEC7FF0070974B /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDF28AEC7FF0070974B /* Users.swift */; };
 		C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1ABC41B28A95E250050F967 /* Assets.xcassets */; };
@@ -59,6 +61,8 @@
 				C1AD34D928AAB3A8001C04B4 /* FirebaseAuth in Frameworks */,
 				C1AD34D128AAB3A8001C04B4 /* FirebaseAnalytics in Frameworks */,
 				C1AD34FA28AAC4F1001C04B4 /* FirebaseStorage in Frameworks */,
+				C1AB6B6E28B2B35500E9BA55 /* SDWebImageMapKit in Frameworks */,
+				C1AB6B6C28B2B35500E9BA55 /* SDWebImage in Frameworks */,
 				C1AD34F828AAC4F1001C04B4 /* FirebaseDatabase in Frameworks */,
 				C1AD34E128AAB3A8001C04B4 /* FirebaseFirestore in Frameworks */,
 			);
@@ -161,6 +165,8 @@
 				C1AD34F428AAB3A8001C04B4 /* FirebaseStorage */,
 				C1AD34F728AAC4F1001C04B4 /* FirebaseDatabase */,
 				C1AD34F928AAC4F1001C04B4 /* FirebaseStorage */,
+				C1AB6B6B28B2B35500E9BA55 /* SDWebImage */,
+				C1AB6B6D28B2B35500E9BA55 /* SDWebImageMapKit */,
 			);
 			productName = MyChat;
 			productReference = C1861A4928A7FC81005D44AF /* MyChat.app */;
@@ -195,6 +201,7 @@
 				C1ABC41D28A978BF0050F967 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				C1AD34CF28AAB3A8001C04B4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				C1AD34F628AAC4F1001C04B4 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				C1AB6B6A28B2B35500E9BA55 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 			);
 			productRefGroup = C1861A4A28A7FC81005D44AF /* Products */;
 			projectDirPath = "";
@@ -377,7 +384,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -404,7 +411,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -450,6 +457,14 @@
 				kind = branch;
 			};
 		};
+		C1AB6B6A28B2B35500E9BA55 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		C1ABC41D28A978BF0050F967 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -481,6 +496,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C1861A6328A801C9005D44AF /* XCRemoteSwiftPackageReference "SnapKit" */;
 			productName = SnapKit;
+		};
+		C1AB6B6B28B2B35500E9BA55 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1AB6B6A28B2B35500E9BA55 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		C1AB6B6D28B2B35500E9BA55 /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C1AB6B6A28B2B35500E9BA55 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
 		};
 		C1AD34D028AAB3A8001C04B4 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
