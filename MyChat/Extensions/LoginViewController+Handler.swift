@@ -49,13 +49,16 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
     private func registerWithUserUID(uid: String, value: [String: Any]) {
         let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
         let userRefernce = refernces.child("users").child(uid)
-       userRefernce.updateChildValues(value) { error, refernces in
-           if error != nil {
-               print("------Error refernces", error?.localizedDescription ?? "")
-               return
-           }
+        userRefernce.updateChildValues(value) { error, refernces in
+            if error != nil {
+                print("------Error refernces", error?.localizedDescription ?? "")
+                return
+            }
+            self.messagesViewController?.navigationItem.title = value["name"] as? String
+            self.dismiss(animated: true)
+        }
     }
-}
+    
     @objc func handleTapAvatar() {
         let picker = UIImagePickerController()
         picker.delegate = self

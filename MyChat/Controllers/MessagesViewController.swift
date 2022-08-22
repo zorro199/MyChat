@@ -46,13 +46,15 @@ class MessagesViewController: UIViewController {
         if Auth.auth().currentUser == nil {
             perform(#selector(handleLogout))
         } else {
-            let uid = Auth.auth().currentUser?.uid
-            Database.database().reference().child("users").child(uid!).observeSingleEvent(of: .value) { snapshot in
-                if let dictionary = snapshot.value as? [String: AnyObject] {
-                    DispatchQueue.main.async {
-                        self.navigationItem.title = dictionary["name"] as? String
-                    }
-                }
+            setupNameUserTitle()
+        }
+    }
+    
+     func setupNameUserTitle() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value) { snapshot in
+            if let dictionary = snapshot.value as? [String: Any] {
+                self.navigationItem.title = dictionary["name"] as? String
             }
         }
     }
@@ -67,9 +69,9 @@ class MessagesViewController: UIViewController {
         }
         
         let loginViewController = LoginViewController()
+        loginViewController.messagesViewController = self // 🤔
         loginViewController.modalPresentationStyle = .fullScreen
         present(loginViewController, animated: false)
-        
     }
     
     //MARK: - Set Views

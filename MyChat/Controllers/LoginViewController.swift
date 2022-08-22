@@ -14,6 +14,8 @@ class LoginViewController: UIViewController {
     
     //MARK: - VIEW
     
+    var messagesViewController: MessagesViewController?
+    
     lazy var imageAvatar: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "avatar")
@@ -133,6 +135,7 @@ class LoginViewController: UIViewController {
                 print("----Error SignIn")
                 return
             }
+            self.messagesViewController?.setupNameUserTitle()
             self.dismiss(animated: true )
         }
     }
