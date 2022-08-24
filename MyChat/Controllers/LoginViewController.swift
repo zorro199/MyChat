@@ -14,7 +14,7 @@ class LoginViewController: UIViewController {
     
     //MARK: - VIEW
     
-    var messagesViewController: MessagesViewController?
+    weak var messagesViewController: MessagesViewController?
     
     lazy var imageAvatar: UIImageView = {
         let imageView = UIImageView()

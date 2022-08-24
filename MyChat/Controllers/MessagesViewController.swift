@@ -37,6 +37,7 @@ class MessagesViewController: UIViewController {
     
     @objc private func handleNewMessage() {
         let newMessageVC = NewMessageVewController()
+        newMessageVC.messagesViewController = self
         let navigationVC = UINavigationController(rootViewController: newMessageVC)
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
@@ -50,11 +51,19 @@ class MessagesViewController: UIViewController {
         }
     }
     
-     func setupNameUserTitle() {
+    func setupNameUserTitle() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value) { snapshot in
             if let dictionary = snapshot.value as? [String: Any] {
-                self.navigationItem.title = dictionary["name"] as? String
+                let name = dictionary["name"] as? String
+                let label = UILabel()
+                label.text = name
+                label.textAlignment = .center
+                label.frame = CGRect(x: 0, y: 0, width: 150, height: 40)
+                self.navigationItem.titleView = label
+//                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleShowChatController))
+//                label.isUserInteractionEnabled = true
+//                label.addGestureRecognizer(tapGesture)
             }
         }
     }
@@ -72,6 +81,11 @@ class MessagesViewController: UIViewController {
         loginViewController.messagesViewController = self // 🤔
         loginViewController.modalPresentationStyle = .fullScreen
         present(loginViewController, animated: false)
+    }
+    
+     func ShowChatLogController() { // resume 
+        let chatLogController = ChatLogController()
+        navigationController?.pushViewController(chatLogController, animated: true) 
     }
     
     //MARK: - Set Views

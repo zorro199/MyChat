@@ -8,13 +8,13 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
-import Firebase
-import FirebaseCore
 import SDWebImage
 
 class NewMessageVewController: UIViewController {
     
     var users = [Users]()
+    
+    weak var messagesViewController: MessagesViewController?
         
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -49,8 +49,6 @@ class NewMessageVewController: UIViewController {
         }
     }
     
-    //MARK: - Settings view
-    
     private func setNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: .plain, target: self, action: #selector(handleCancel))
     }
@@ -58,6 +56,8 @@ class NewMessageVewController: UIViewController {
     @objc private func handleCancel() {
         dismiss(animated: true)
     }
+    
+    //MARK: - Settings view
     
     private func setViews() {
         view.addSubviews([tableView])
@@ -70,7 +70,13 @@ class NewMessageVewController: UIViewController {
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }
+    
+    private func showChatLogController(user: User) {
+        let chatViewController = ChatLogController()
+        navigationController?.pushViewController(chatViewController, animated: true)
+    }
 }
+
 
 extension NewMessageVewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -89,12 +95,11 @@ extension NewMessageVewController: UITableViewDelegate, UITableViewDataSource {
         return 70
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.dismiss(animated: true) {
+            let user = self.users[indexPath.row]
+            self.messagesViewController?.ShowChatLogController()
+        }
+    }
+    
 }
-
-/*
- if let imageProfile = user.profileImage {
-     cell.imageView?.sd_setImage(with: URL(string: imageProfile))
-     cell.imageView?.contentMode = .scaleAspectFill
-     cell.textLabel?.text = user.name
-}
- */
