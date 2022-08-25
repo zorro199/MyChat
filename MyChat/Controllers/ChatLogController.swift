@@ -8,8 +8,15 @@
 import UIKit
 import SnapKit
 import FirebaseDatabase
+import FirebaseAuth
 
 class ChatLogController: UIViewController, UITextFieldDelegate {
+    
+    var user: Users? {
+        didSet {
+            navigationItem.title = user?.name
+        }
+    }
     
     private lazy var collectionView: UICollectionView = {
         let flowLayout = UICollectionViewFlowLayout()
@@ -48,10 +55,14 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     }
     
     @objc private func handleSendButton() {
+        guard let toUserID = user?.id else { return }
         let referance = Database.database().reference().child("messages")
         let childReferance = referance.childByAutoId()
         guard let message = messageTextField.text else { return }
-        let values = ["text": message, "name": "Zorro"] as [String: Any]
+        let fromUserID = Auth.auth().currentUser?.uid
+        let timeStamp = NSDate().timeIntervalSince1970
+        let values = ["text": message, "toUserID": toUserID,
+                      "fromUserID": fromUserID, "timeStamp": timeStamp] as [String: Any]
         childReferance.updateChildValues(values)
     }
     

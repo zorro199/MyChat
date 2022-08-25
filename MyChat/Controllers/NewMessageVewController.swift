@@ -39,7 +39,8 @@ class NewMessageVewController: UIViewController {
             if let dictionary = snapshot.value as? [String: Any] {
                 do {
                     let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
-                    let user = try? JSONDecoder().decode(Users.self, from: data!)
+                    var user = try? JSONDecoder().decode(Users.self, from: data!)
+                    user?.id = snapshot.key
                     self.users.append(user!)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
@@ -98,7 +99,7 @@ extension NewMessageVewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.dismiss(animated: true) {
             let user = self.users[indexPath.row]
-            self.messagesViewController?.ShowChatLogController()
+            self.messagesViewController?.ShowChatLogController(user)
         }
     }
     

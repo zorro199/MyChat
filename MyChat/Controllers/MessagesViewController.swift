@@ -61,9 +61,6 @@ class MessagesViewController: UIViewController {
                 label.textAlignment = .center
                 label.frame = CGRect(x: 0, y: 0, width: 150, height: 40)
                 self.navigationItem.titleView = label
-//                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.handleShowChatController))
-//                label.isUserInteractionEnabled = true
-//                label.addGestureRecognizer(tapGesture)
             }
         }
     }
@@ -83,8 +80,9 @@ class MessagesViewController: UIViewController {
         present(loginViewController, animated: false)
     }
     
-     func ShowChatLogController() { // resume 
+    func ShowChatLogController(_ user: Users) { 
         let chatLogController = ChatLogController()
+        chatLogController.user = user 
         navigationController?.pushViewController(chatLogController, animated: true) 
     }
     

@@ -8,6 +8,7 @@
 import Foundation
 
 struct Users: Codable {
+    var id: String?
     let email: String?
     let name: String?
     let profileImage: String?

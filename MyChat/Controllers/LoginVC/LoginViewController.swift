@@ -13,7 +13,7 @@ import FirebaseStorage
 class LoginViewController: UIViewController {
     
     //MARK: - VIEW
-    
+     
     weak var messagesViewController: MessagesViewController?
     
     lazy var imageAvatar: UIImageView = {
@@ -127,12 +127,12 @@ class LoginViewController: UIViewController {
     
     @objc private func handleLogin() {
         guard let email = emailTextField.text, let password = passwordTextField.text else {
-            print("----Error valid fields")
+            print("---Error valid fields")
             return
         }
         Auth.auth().signIn(withEmail: email, password: password) { user, error in
             if error != nil {
-                print("----Error SignIn")
+                print("---Error SignIn")
                 return
             }
             self.messagesViewController?.setupNameUserTitle()
