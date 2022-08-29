@@ -59,7 +59,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         let referance = Database.database().reference().child("messages")
         let childReferance = referance.childByAutoId()
         guard let message = messageTextField.text else { return }
-        let fromUserID = Auth.auth().currentUser?.uid
+        guard let fromUserID = Auth.auth().currentUser?.uid else { return }
         let timeStamp = NSDate().timeIntervalSince1970
         let values = ["text": message, "toUserID": toUserID,
                       "fromUserID": fromUserID, "timeStamp": timeStamp] as [String: Any]

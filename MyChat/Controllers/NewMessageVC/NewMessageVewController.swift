@@ -39,9 +39,11 @@ class NewMessageVewController: UIViewController {
             if let dictionary = snapshot.value as? [String: Any] {
                 do {
                     let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
-                    var user = try? JSONDecoder().decode(Users.self, from: data!)
-                    user?.id = snapshot.key
-                    self.users.append(user!)
+                    guard let data = data else { return }
+                    let user = try? JSONDecoder().decode(Users.self, from: data)
+                    guard var user = user else { return }
+                    user.id = snapshot.key
+                    self.users.append(user)
                     DispatchQueue.main.async {
                         self.tableView.reloadData()
                     }
