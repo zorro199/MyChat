@@ -8,8 +8,11 @@
 import UIKit
 import SDWebImage
 import FirebaseDatabase
+import FirebaseAuth
 
 class MessagesTableViewCell: UITableViewCell {
+    
+    var messages: Messages?
     
     private lazy var dataFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -60,12 +63,11 @@ class MessagesTableViewCell: UITableViewCell {
     // Configure cell
     
     func configure(with model: Messages) {
-        guard let toUserID = model.toUserID else {
+        guard let toUserID = model.fromUserID else {
             print("error ID")
             return }
         let referance = Database.database().reference().child("users").child(toUserID)
         referance.observeSingleEvent(of: .value) { snapshot in
-            print("snap -  ",snapshot)
             guard let dictionary = snapshot.value as? [String:Any] else { return }
             guard let profileImage = dictionary["profileImage"] as? String else { return }
             guard let url = URL(string: profileImage) else { return }

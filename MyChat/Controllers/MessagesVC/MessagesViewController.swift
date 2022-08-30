@@ -13,6 +13,7 @@ import SnapKit
 
 class MessagesViewController: UIViewController {
     
+    var user = [Users]()
     var messages = [Messages]()
     var messageDictionary = [String: Messages]()
     
@@ -32,6 +33,7 @@ class MessagesViewController: UIViewController {
         view.backgroundColor = .white
         checkUser()
         setNavigationBar()
+        //observeUserMessage()
         observeMessages()
         setViews()
     }
@@ -41,6 +43,23 @@ class MessagesViewController: UIViewController {
     private func setNavigationBar() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose , target: self, action: #selector(handleNewMessage))
+    }
+    
+    private func observeUserMessage() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let referance = Database.database().reference().child("user-messages").child(uid)
+        referance.observe(.childAdded) { snapshot in
+            print("observeUserMessage - ", snapshot)
+            let messageID = snapshot.key
+            let messageRef = Database.database().reference().child("message").child(messageID)
+            messageRef.observeSingleEvent(of: .value) { snapshot in
+                print(snapshot)
+            } withCancel: { _ in
+            }
+
+        } withCancel: { _ in
+        }
+
     }
     
     private func observeMessages() {
@@ -91,6 +110,13 @@ class MessagesViewController: UIViewController {
     }
     
     func setupNameUserTitle() {
+        self.messages.removeAll()
+        self.messageDictionary.removeAll()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+        observeMessages()
+        
         guard let uid = Auth.auth().currentUser?.uid else { return }
         Database.database().reference().child("users").child(uid).observeSingleEvent(of: .value) { snapshot in
             if let dictionary = snapshot.value as? [String: Any] {
@@ -153,6 +179,22 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let message = messages[indexPath.row]
+        guard let chatPartner = message.chatPartner() else { return }
+        let referance = Database.database().reference().child("users").child(chatPartner)
+        referance.observeSingleEvent(of: .value) { snapshot in
+            guard let dictionary = snapshot.value as? [String:Any] else { return }
+            let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
+            guard let data = data else { return }
+            let messagesUser = try? JSONDecoder().decode(Users.self, from: data)
+            guard let messagesUser = messagesUser else { return }
+            self.ShowChatLogController(messagesUser)
+        } withCancel: { _ in
+        }
+        
+    }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 75
     }
@@ -160,28 +202,3 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-
-/*
- let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
- guard let data = data else {
- print("data error")
- return }
- print(data)
- let message = try? JSONDecoder().decode(Message.self, from: data)
- guard let message = message else {
- print("error messages")
- return }
- print(message)
- DispatchQueue.main.async {
-     self.tableView.reloadData()
-}
- 
- if let toUserId = message.toUserID {
-     self.messageDictionary[toUserId] = message
-     self.messages = Array(self.messageDictionary.values)
-     self.messages.sort { message1, message2 -> Bool in
-         return (Int(message1.timeStamp ?? ""))! > (Int(message2.timeStamp ?? ""))!
-     }
- }
- 
- */

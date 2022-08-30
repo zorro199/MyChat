@@ -56,14 +56,24 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     
     @objc private func handleSendButton() {
         guard let toUserID = user?.id else { return }
-        let referance = Database.database().reference().child("messages")
-        let childReferance = referance.childByAutoId()
+        let referanceD = Database.database().reference().child("messages")
+        let childReferance = referanceD.childByAutoId()
         guard let message = messageTextField.text else { return }
         guard let fromUserID = Auth.auth().currentUser?.uid else { return }
         let timeStamp = NSDate().timeIntervalSince1970
         let values = ["text": message, "toUserID": toUserID,
                       "fromUserID": fromUserID, "timeStamp": timeStamp] as [String: Any]
-        childReferance.updateChildValues(values)
+        childReferance.updateChildValues(values) { error, referance in
+            if error != nil {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            let userMessages = Database.database().reference().child("user-messages").child(fromUserID)
+            let userMessageID = childReferance.key
+            userMessages.updateChildValues([userMessageID: 1])
+            let recipientMessages = Database.database().reference().child("user-messages").child(toUserID)
+            recipientMessages.updateChildValues([userMessageID: 1])
+        }
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
