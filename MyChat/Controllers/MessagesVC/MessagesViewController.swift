@@ -45,28 +45,50 @@ class MessagesViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose , target: self, action: #selector(handleNewMessage))
     }
     
-    private func observeUserMessage() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let referance = Database.database().reference().child("user-messages").child(uid)
-        referance.observe(.childAdded) { snapshot in
-            print("observeUserMessage - ", snapshot)
-            let messageID = snapshot.key
-            let messageRef = Database.database().reference().child("message").child(messageID)
-            messageRef.observeSingleEvent(of: .value) { snapshot in
-                print(snapshot)
-            } withCancel: { _ in
-            }
-
-        } withCancel: { _ in
-        }
-
-    }
+//    private func observeUserMessage() {
+//        guard let uid = Auth.auth().currentUser?.uid else { return }
+//        let referance = Database.database().reference().child("user-messages").child(uid)
+//        referance.observe(.value) { snapshot in
+//            print("observeUserMessage - ", snapshot)
+//            let messageID = snapshot.key
+//            let messageRef = Database.database().reference().child("message").child(messageID)
+//            messageRef.observeSingleEvent(of: .childAdded) { snapshot in
+//                print("--", snapshot)
+//                guard let dictionary = snapshot.value as? [String:Any] else {
+//                    print("---error Dictionary")
+//                    return
+//                }
+//                let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
+//                guard let data = data else {
+//                print("data error")
+//                return }
+//                let message = try? JSONDecoder().decode(Messages.self, from: data)
+//                guard let message = message else {
+//                print("error messages")
+//                return }
+//                self.messages.append(message)
+//                if let toUserId = message.toUserID {
+//                    self.messageDictionary[toUserId] = message
+//                    self.messages = Array(self.messageDictionary.values)
+//                    self.messages.sort (by: { (mes, mes2) -> Bool in
+//                        return (mes.timeStamp ?? 0)! > (mes2.timeStamp ?? 0)!
+//                    })
+//                }
+//                DispatchQueue.main.async {
+//                    self.tableView.reloadData()
+//               }
+//            } withCancel: { _ in
+//            }
+//
+//        } withCancel: { _ in
+//        }
+//    }
     
     private func observeMessages() {
         let referance = Database.database().reference().child("messages")
         referance.observe(.childAdded) { snapshot in
             guard let dictionary = snapshot.value as? [String:Any] else {
-                print("error Dictionary")
+                print("---error Dictionary")
                 return
             }
             let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
@@ -78,8 +100,8 @@ class MessagesViewController: UIViewController {
             print("error messages")
             return }
             self.messages.append(message)
-            if let toUserId = message.toUserID {
-                self.messageDictionary[toUserId] = message
+            if let chatPartner = message.chatPartner() {
+                self.messageDictionary[chatPartner] = message
                 self.messages = Array(self.messageDictionary.values)
                 self.messages.sort (by: { (mes, mes2) -> Bool in
                     return (mes.timeStamp ?? 0)! > (mes2.timeStamp ?? 0)!
@@ -188,7 +210,8 @@ extension MessagesViewController: UITableViewDelegate, UITableViewDataSource {
             let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
             guard let data = data else { return }
             let messagesUser = try? JSONDecoder().decode(Users.self, from: data)
-            guard let messagesUser = messagesUser else { return }
+            guard var messagesUser = messagesUser else { return }
+            messagesUser.id = chatPartner
             self.ShowChatLogController(messagesUser)
         } withCancel: { _ in
         }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C13AAF7528C39C4E00E77238 /* ChatCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13AAF7428C39C4E00E77238 /* ChatCollectionViewCell.swift */; };
 		C1861A4D28A7FC81005D44AF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A4C28A7FC81005D44AF /* AppDelegate.swift */; };
 		C1861A4F28A7FC81005D44AF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A4E28A7FC81005D44AF /* SceneDelegate.swift */; };
 		C1861A5128A7FC81005D44AF /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1861A5028A7FC81005D44AF /* MessagesViewController.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C13AAF7428C39C4E00E77238 /* ChatCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewCell.swift; sourceTree = "<group>"; };
 		C1861A4928A7FC81005D44AF /* MyChat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyChat.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C1861A4C28A7FC81005D44AF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C1861A4E28A7FC81005D44AF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -79,6 +81,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C13AAF7328C39C1800E77238 /* ChatLogController */ = {
+			isa = PBXGroup;
+			children = (
+				C1A8224B28B6726400FF500F /* ChatLogController.swift */,
+				C13AAF7428C39C4E00E77238 /* ChatCollectionViewCell.swift */,
+			);
+			path = ChatLogController;
+			sourceTree = "<group>";
+		};
 		C1861A4028A7FC81005D44AF = {
 			isa = PBXGroup;
 			children = (
@@ -117,7 +128,7 @@
 				C1A9711928B7EF01004078DA /* LoginVC */,
 				C1AAF0B828B8F47100210B1D /* NewMessageVC */,
 				C1A7653828BA6B0C00F1E7AB /* MessagesVC */,
-				C1A8224B28B6726400FF500F /* ChatLogController.swift */,
+				C13AAF7328C39C1800E77238 /* ChatLogController */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -271,6 +282,7 @@
 				C1AAF0B728B8F37900210B1D /* Messages.swift in Sources */,
 				C1A92A0D28AFF8A800F8B9A6 /* UsersTableViewCell.swift in Sources */,
 				C1861A6A28A812B4005D44AF /* Extension + UIColor.swift in Sources */,
+				C13AAF7528C39C4E00E77238 /* ChatCollectionViewCell.swift in Sources */,
 				C1A8224E28B68D6000FF500F /* Extension + Separator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -26,7 +26,7 @@ class NewMessageVewController: UIViewController {
     
     //MARK: - viewDidLoad
     
-    override func viewDidLoad() {
+        override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         fetchUser()

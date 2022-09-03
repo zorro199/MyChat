@@ -63,7 +63,7 @@ class MessagesTableViewCell: UITableViewCell {
     // Configure cell
     
     func configure(with model: Messages) {
-        guard let toUserID = model.fromUserID else {
+        guard let toUserID = model.toUserID else {
             print("error ID")
             return }
         let referance = Database.database().reference().child("users").child(toUserID)
