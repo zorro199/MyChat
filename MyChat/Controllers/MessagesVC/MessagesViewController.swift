@@ -16,6 +16,7 @@ class MessagesViewController: UIViewController {
     var user = [Users]()
     var messages = [Messages]()
     var messageDictionary = [String: Messages]()
+    var timer: Timer?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -33,7 +34,6 @@ class MessagesViewController: UIViewController {
         view.backgroundColor = .white
         checkUser()
         setNavigationBar()
-        //observeUserMessage()
         observeMessages()
         setViews()
     }
@@ -44,45 +44,6 @@ class MessagesViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain, target: self, action: #selector(handleLogout))
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .compose , target: self, action: #selector(handleNewMessage))
     }
-    
-//    private func observeUserMessage() {
-//        guard let uid = Auth.auth().currentUser?.uid else { return }
-//        let referance = Database.database().reference().child("user-messages").child(uid)
-//        referance.observe(.value) { snapshot in
-//            print("observeUserMessage - ", snapshot)
-//            let messageID = snapshot.key
-//            let messageRef = Database.database().reference().child("message").child(messageID)
-//            messageRef.observeSingleEvent(of: .childAdded) { snapshot in
-//                print("--", snapshot)
-//                guard let dictionary = snapshot.value as? [String:Any] else {
-//                    print("---error Dictionary")
-//                    return
-//                }
-//                let data = try? JSONSerialization.data(withJSONObject: dictionary, options: [])
-//                guard let data = data else {
-//                print("data error")
-//                return }
-//                let message = try? JSONDecoder().decode(Messages.self, from: data)
-//                guard let message = message else {
-//                print("error messages")
-//                return }
-//                self.messages.append(message)
-//                if let toUserId = message.toUserID {
-//                    self.messageDictionary[toUserId] = message
-//                    self.messages = Array(self.messageDictionary.values)
-//                    self.messages.sort (by: { (mes, mes2) -> Bool in
-//                        return (mes.timeStamp ?? 0)! > (mes2.timeStamp ?? 0)!
-//                    })
-//                }
-//                DispatchQueue.main.async {
-//                    self.tableView.reloadData()
-//               }
-//            } withCancel: { _ in
-//            }
-//
-//        } withCancel: { _ in
-//        }
-//    }
     
     private func observeMessages() {
         let referance = Database.database().reference().child("messages")
@@ -107,9 +68,8 @@ class MessagesViewController: UIViewController {
                     return (mes.timeStamp ?? 0)! > (mes2.timeStamp ?? 0)!
                 })
             }
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-           }
+            self.timer?.invalidate()
+            self.timer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.handleTimer), userInfo: nil, repeats: false)
         } withCancel: { _ in
         }
 
@@ -121,6 +81,12 @@ class MessagesViewController: UIViewController {
         let navigationVC = UINavigationController(rootViewController: newMessageVC)
         navigationVC.modalPresentationStyle = .fullScreen
         present(navigationVC, animated: true)
+    }
+    
+    @objc private func handleTimer() {
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+       }
     }
     
     private func checkUser() {

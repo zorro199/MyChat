@@ -74,17 +74,6 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
                       "fromUserID": fromUserID, "timeStamp": timeStamp] as [String: Any]
         childReferance.updateChildValues(values)
         messageTextField.text = nil
-//        childReferance.updateChildValues(values) { error, referance in
-//            if error != nil {
-//                print("-----------------", error?.localizedDescription ?? "")
-//                return
-//            }
-//            let userMessagesRef = Database.database().reference().child("user-messages").child(fromUserID)
-//            let messageID = childReferance.key
-//            userMessagesRef.updateChildValues([messageID: 1])
-//            let recipientMessages = Database.database().reference().child("user-messages").child(toUserID)
-//            recipientMessages.updateChildValues([userMessageID: 1])
-//        }
     }
     
     private func estemateText(_ text: String) -> CGRect {
@@ -100,7 +89,6 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     }
     
     private func observeMessages() {
-        //guard let uid = Auth.auth().currentUser?.uid else { return }
         let userMessageRef = Database.database().reference().child("messages")
         userMessageRef.observe(.childAdded) { snapshot in
             guard let dictionary = snapshot.value as? [String:Any] else {
@@ -111,7 +99,8 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
             guard let data = data else { return }
             let userMessages = try? JSONDecoder().decode(Messages.self, from: data)
             guard let userMessages = userMessages else { return }
-            if self.user?.id == userMessages.chatPartner()  {
+            if self.user?.id == userMessages.chatPartner() {
+                print("---", userMessages.text!)
                 self.messages.append(userMessages)
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
@@ -119,7 +108,6 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
             }
         } withCancel: { _ in
         }
-        
     }
     
     //MARK: - Settings view
@@ -172,7 +160,7 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
             return UICollectionViewCell()
         }
         let messages = messages[indexPath.row]
-        cell.bubbleWidth?.constant = estemateText(messages.text ?? "").width + 30
+        cell.bubbleWidthAnchor?.constant = estemateText(messages.text ?? "").width + 30
         cell.configure(with: messages)
         self.setupCellColor(cell, messages: messages)
         return cell
@@ -181,8 +169,12 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
     private func setupCellColor(_ cell: ChatCollectionViewCell, messages: Messages) {
         if messages.fromUserID == Auth.auth().currentUser?.uid {
             cell.bubbleView.backgroundColor = ChatCollectionViewCell.colorBuubleView
+            cell.bubbleRightAnchor?.isActive = true
+            cell.bubbleLeftAnchor?.isActive = false
         } else {
             cell.bubbleView.backgroundColor = .gray
+            cell.bubbleRightAnchor?.isActive = false
+            cell.bubbleLeftAnchor?.isActive = true
         }
     }
     

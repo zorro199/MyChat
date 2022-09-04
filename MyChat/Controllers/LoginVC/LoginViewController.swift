@@ -126,10 +126,7 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func handleLogin() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else {
-            print("---Error valid fields")
-            return
-        }
+        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
         Auth.auth().signIn(withEmail: email, password: password) { user, error in
             if error != nil {
                 print("---Error SignIn")

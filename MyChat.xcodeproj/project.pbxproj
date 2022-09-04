@@ -34,7 +34,6 @@
 		C1AD34F528AAB3A8001C04B4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34F428AAB3A8001C04B4 /* FirebaseStorage */; };
 		C1AD34F828AAC4F1001C04B4 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34F728AAC4F1001C04B4 /* FirebaseDatabase */; };
 		C1AD34FA28AAC4F1001C04B4 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34F928AAC4F1001C04B4 /* FirebaseStorage */; };
-		C1CA469628AC212500EDD14A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1CA469528AC212500EDD14A /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,7 +56,6 @@
 		C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageVewController.swift; sourceTree = "<group>"; };
 		C1AB8DDF28AEC7FF0070974B /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		C1ABC41B28A95E250050F967 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		C1CA469528AC212500EDD14A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +114,6 @@
 				C1861A6628A80DD5005D44AF /* Extensions */,
 				C1861A5728A7FC86005D44AF /* LaunchScreen.storyboard */,
 				C1ABC41B28A95E250050F967 /* Assets.xcassets */,
-				C1CA469528AC212500EDD14A /* GoogleService-Info.plist */,
 				C1861A5A28A7FC86005D44AF /* Info.plist */,
 			);
 			path = MyChat;
@@ -258,7 +255,6 @@
 			files = (
 				C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */,
 				C1861A5928A7FC86005D44AF /* LaunchScreen.storyboard in Resources */,
-				C1CA469628AC212500EDD14A /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
