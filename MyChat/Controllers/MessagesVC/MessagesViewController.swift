@@ -10,7 +10,6 @@ import FirebaseAuth
 import FirebaseDatabase
 import SnapKit
 
-
 class MessagesViewController: UIViewController {
     
     var user = [Users]()
@@ -23,7 +22,7 @@ class MessagesViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(MessagesTableViewCell.self, forCellReuseIdentifier: MessagesTableViewCell.reuseId)
-        tableView.backgroundColor = .gray
+        tableView.backgroundColor = .white
         return tableView
     }()
     

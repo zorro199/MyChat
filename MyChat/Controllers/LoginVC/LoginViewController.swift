@@ -39,11 +39,12 @@ class LoginViewController: UIViewController {
         return view
     }()
     
-     lazy var nameTextField: UITextField = {
+    lazy var nameTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter your login"
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 5
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         textField.isHidden = true
         return textField
     }()
@@ -57,20 +58,22 @@ class LoginViewController: UIViewController {
         return label
     }()
     
-     lazy var emailTextField: UITextField = {
+    lazy var emailTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter your email"
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 5
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
     
-     lazy var passwordTextField: UITextField = {
+    lazy var passwordTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter your password"
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 5
-        textField.isSecureTextEntry = true
+        textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
+        //textField.isSecureTextEntry = true
         return textField
     }()
     
@@ -104,6 +107,19 @@ class LoginViewController: UIViewController {
     }()
     
     //MARK: - Handles @objc
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        if let textEmail = emailTextField.text, let textName = nameTextField.text,
+            let textPassword = passwordTextField.text {
+            if textEmail.count == 1 || textName.count == 1 || textPassword.count == 1 {
+                DispatchQueue.main.async {
+                    self.emailTextField.text = textEmail.lowercased()
+                    self.nameTextField.text = textName.lowercased()
+                    self.passwordTextField.text = textPassword.lowercased()
+                }
+            }
+        }
+    }
     
     @objc private func segmentHandler() {
         switch loginSegmentController.selectedSegmentIndex {

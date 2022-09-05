@@ -15,7 +15,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     var user: Users? {
         didSet {
             navigationItem.title = user?.name
-            observeMessages()
+            //observeMessages()
         }
     }
     
@@ -147,7 +147,6 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     }
     
 }
-
 
 extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
