@@ -22,7 +22,6 @@
 		C1A92A0D28AFF8A800F8B9A6 /* UsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */; };
 		C1A92A0F28B003EC00F8B9A6 /* LoginViewController+Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */; };
 		C1A9823628C6418B00F7926E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1A9823528C6418B00F7926E /* GoogleService-Info.plist */; };
-		C1A9823828C6562C00F7926E /* Extension + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A9823728C6562C00F7926E /* Extension + String.swift */; };
 		C1AAF0B728B8F37900210B1D /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AAF0B628B8F37900210B1D /* Messages.swift */; };
 		C1AB6B6C28B2B35500E9BA55 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = C1AB6B6B28B2B35500E9BA55 /* SDWebImage */; };
 		C1AB6B6E28B2B35500E9BA55 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1AB6B6D28B2B35500E9BA55 /* SDWebImageMapKit */; };
@@ -55,7 +54,6 @@
 		C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewCell.swift; sourceTree = "<group>"; };
 		C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+Handler.swift"; sourceTree = "<group>"; };
 		C1A9823528C6418B00F7926E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		C1A9823728C6562C00F7926E /* Extension + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + String.swift"; sourceTree = "<group>"; };
 		C1AAF0B628B8F37900210B1D /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageVewController.swift; sourceTree = "<group>"; };
 		C1AB8DDF28AEC7FF0070974B /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
@@ -141,7 +139,6 @@
 				C1861A6728A80DF9005D44AF /* Extensions + Subviews.swift */,
 				C1861A6928A812B4005D44AF /* Extension + UIColor.swift */,
 				C1A8224D28B68D6000FF500F /* Extension + Separator.swift */,
-				C1A9823728C6562C00F7926E /* Extension + String.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -274,7 +271,6 @@
 			files = (
 				C1AB8DE028AEC7FF0070974B /* Users.swift in Sources */,
 				C1A7653A28BA6B4C00F1E7AB /* MessagesTableViewCell.swift in Sources */,
-				C1A9823828C6562C00F7926E /* Extension + String.swift in Sources */,
 				C1A92A0F28B003EC00F8B9A6 /* LoginViewController+Handler.swift in Sources */,
 				C1861A6828A80DF9005D44AF /* Extensions + Subviews.swift in Sources */,
 				C1AB8DDD28AE94050070974B /* NewMessageVewController.swift in Sources */,

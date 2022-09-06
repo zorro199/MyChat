@@ -93,8 +93,16 @@ class LoginViewController: UIViewController {
         segment.selectedSegmentIndex = 0
         segment.addTarget(self, action: #selector(segmentHandler), for: .valueChanged)
         segment.tintColor = .white
-        
         return segment
+    }()
+    
+     lazy var errorSignInLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .red
+        label.font = UIFont.boldSystemFont(ofSize: 16)
+        label.textAlignment = .center
+        label.isHidden = true
+        return label
     }()
     
     private lazy var myChatLabel: UILabel = {
@@ -142,7 +150,21 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func handleLogin() {
-        guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+        //guard let email = emailTextField.text, let password = passwordTextField.text else { return }
+        guard let email = emailTextField.text, emailTextField.text!.count != 0 else {
+            self.errorSignInLabel.isHidden = false
+            self.errorSignInLabel.text = "Please enter email"
+            return
+        }
+        if isValidEmail(email) == false {
+            self.errorSignInLabel.isHidden = false
+            self.errorSignInLabel.text = "Wrong valid email"
+        }
+        guard let password = passwordTextField.text, passwordTextField.text!.count >= 6 else {
+            self.errorSignInLabel.isHidden = false
+            self.errorSignInLabel.text = "Password at least is must be 6 symbols"
+            return
+        }
         Auth.auth().signIn(withEmail: email, password: password) { user, error in
             if error != nil {
                 print("---Error SignIn")
@@ -151,6 +173,12 @@ class LoginViewController: UIViewController {
             self.messagesViewController?.setupNameUserTitle()
             self.dismiss(animated: true )
         }
+    }
+    
+    func isValidEmail(_ email: String) -> Bool {
+    let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
+    let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)
+    return emailPred.evaluate(with: email)
     }
     
     //MARK: - viewDidLoad
@@ -165,23 +193,23 @@ class LoginViewController: UIViewController {
     
     private func setViews() {
         view.addSubviews([loginSegmentController ,imageAvatar
-                          ,inputsContainerView, loginRegisterButton, myChatLabel])
+                          ,inputsContainerView, loginRegisterButton, myChatLabel, errorSignInLabel])
         inputsContainerView.addSubviews([nameTextField, loginLabel ,emailTextField, passwordTextField])
         setLayouts()
     }
     
     private func setLayouts() {
-        loginSegmentController.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(60)
-            $0.width.equalTo(200)
-            $0.height.equalTo(30)
-            $0.centerX.equalToSuperview()
-        }
         imageAvatar.snp.makeConstraints {
             $0.top.equalToSuperview().offset(100)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(160)
             $0.height.equalTo(160)
+        }
+        loginSegmentController.snp.makeConstraints {
+            $0.top.equalTo(imageAvatar.snp.bottom).offset(50)
+            $0.width.equalTo(200)
+            $0.height.equalTo(30)
+            $0.centerX.equalToSuperview()
         }
         inputsContainerView.snp.makeConstraints {
             $0.centerX.centerY.equalToSuperview()
@@ -218,6 +246,12 @@ class LoginViewController: UIViewController {
             $0.leading.equalToSuperview().offset(100)
             $0.trailing.equalToSuperview().offset(-100)
             $0.height.equalTo(50)
+        }
+        errorSignInLabel.snp.makeConstraints {
+            $0.top.equalTo(loginRegisterButton.snp.bottom).offset(30)
+            $0.centerX.equalToSuperview()
+            $0.left.right.equalToSuperview()
+            $0.height.equalTo(20)
         }
         myChatLabel.snp.makeConstraints {
             $0.top.equalTo(loginRegisterButton.snp.bottom).offset(100)
