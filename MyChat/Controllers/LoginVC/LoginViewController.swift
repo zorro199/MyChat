@@ -117,16 +117,16 @@ class LoginViewController: UIViewController {
     //MARK: - Handles @objc
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        if let textEmail = emailTextField.text, let textName = nameTextField.text,
-            let textPassword = passwordTextField.text {
-            if textEmail.count == 1 || textName.count == 1 || textPassword.count == 1 {
-                DispatchQueue.main.async {
-                    self.emailTextField.text = textEmail.lowercased()
-                    self.nameTextField.text = textName.lowercased()
-                    self.passwordTextField.text = textPassword.lowercased()
-                }
-            }
-        }
+//        if let textEmail = emailTextField.text, let textName = nameTextField.text,
+//            let textPassword = passwordTextField.text {
+//            if textEmail.count == 0 || textName.count == 0 || textPassword.count == 0 {
+//                DispatchQueue.main.async {
+//                    self.emailTextField.text = textEmail.lowercased()
+//                    self.nameTextField.text = textName.lowercased()
+//                    self.passwordTextField.text = textPassword.lowercased()
+//                }
+//            }
+//        }
     }
     
     @objc private func segmentHandler() {
@@ -150,7 +150,6 @@ class LoginViewController: UIViewController {
     }
     
     @objc private func handleLogin() {
-        //guard let email = emailTextField.text, let password = passwordTextField.text else { return }
         guard let email = emailTextField.text, emailTextField.text!.count != 0 else {
             self.errorSignInLabel.isHidden = false
             self.errorSignInLabel.text = "Please enter email"
@@ -175,6 +174,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // email valid
     func isValidEmail(_ email: String) -> Bool {
     let emailRegEx = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
     let emailPred = NSPredicate(format:"SELF MATCHES %@", emailRegEx)

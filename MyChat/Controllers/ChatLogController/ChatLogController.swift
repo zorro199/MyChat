@@ -30,12 +30,14 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .white
+        collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
     
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .red
+        view.translatesAutoresizingMaskIntoConstraints = false // add color 
         return view
     }()
     
@@ -61,6 +63,17 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         view.backgroundColor = .white
         setViews()
         observeMessages()
+        setupKeyboardObserves()
+    }
+    
+    // keyboard setup
+    func setupKeyboardObserves() {
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    @objc private func handleKeyboardWillShow(notification: Notification) {
+        let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+        containerViewBottomAnchor?.constant = -keyboardFrame.height
     }
     
     @objc private func handleSendButton() {
@@ -83,8 +96,10 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         return NSString(string: text).boundingRect(with: size, options: options, attributes: attributes, context: nil)
     }
     
+    var containerViewBottomAnchor: NSLayoutConstraint?
+    var separatorViewBottomAnchor: NSLayoutConstraint?
+    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        handleSendButton()
         return true
     }
     
@@ -113,26 +128,23 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     //MARK: - Settings view
     
     private func setViews() {
-        view.addSubviews([collectionView, containerView, separator])
+        view.addSubviews([collectionView, containerView])
         containerView.addSubviews([sendButton, messageTextField])
         setLayouts()
     }
     
     private func setLayouts() {
-        collectionView.snp.makeConstraints {
-            $0.leading.top.trailing.equalToSuperview()
-            $0.bottom.equalTo(separator.snp.top)
-        }
-        separator.snp.makeConstraints {
-            $0.top.equalTo(collectionView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(containerView.snp.top)
-        }
-        containerView.snp.makeConstraints {
-            $0.top.equalTo(separator.snp.bottom)
-            $0.trailing.leading.bottom.equalToSuperview()
-            $0.height.equalTo(80)
-        }
+        collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        collectionView.bottomAnchor.constraint(equalTo: containerView.topAnchor).isActive = true
+        //
+        containerView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        containerView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        containerViewBottomAnchor = containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        containerViewBottomAnchor?.isActive = true
+        containerView.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        //
         sendButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-30)

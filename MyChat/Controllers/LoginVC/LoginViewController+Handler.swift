@@ -13,14 +13,6 @@ import FirebaseStorage
 extension LoginViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     @objc func handleRegister() {
-//        guard let name = nameTextField.text , let email = emailTextField.text, let password = passwordTextField.text else {
-//            print("-----error Text")
-//            return }
-        guard let name = nameTextField.text, nameTextField.text!.count >= 4 else {
-            self.errorSignInLabel.isHidden = false
-            self.errorSignInLabel.text = "Name at least is must be 4 symbols"
-            return
-        }
         guard let email = emailTextField.text, emailTextField.text!.count != 0 else {
             self.errorSignInLabel.isHidden = false
             self.errorSignInLabel.text = "Please enter email"
@@ -29,6 +21,11 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
         if isValidEmail(email) == false {
             self.errorSignInLabel.isHidden = false
             self.errorSignInLabel.text = "Wrong valid email"
+        }
+        guard let name = nameTextField.text, nameTextField.text!.count >= 4 else {
+            self.errorSignInLabel.isHidden = false
+            self.errorSignInLabel.text = "Name at least is must be 4 symbols"
+            return
         }
         guard let password = passwordTextField.text, passwordTextField.text!.count >= 6 else {
             self.errorSignInLabel.isHidden = false

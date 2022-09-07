@@ -16,6 +16,7 @@ extension UIView {
         let size = CGSize(width: UIScreen.main.bounds.width - inset, height: height)
         let view = UIView(frame: CGRect(origin: origin, size: size))
         view.heightAnchor.constraint(equalToConstant: height).isActive = true
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.backgroundColor = color
         return view
     }
