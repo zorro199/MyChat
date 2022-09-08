@@ -30,14 +30,15 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         collection.delegate = self
         collection.dataSource = self
         collection.backgroundColor = .white
+        collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
     
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .red
-        view.translatesAutoresizingMaskIntoConstraints = false // add color 
+        view.backgroundColor = .systemGray6
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -66,16 +67,35 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         setupKeyboardObserves()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     // keyboard setup
     func setupKeyboardObserves() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     @objc private func handleKeyboardWillShow(notification: Notification) {
         let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
+        let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
         containerViewBottomAnchor?.constant = -keyboardFrame.height
+        UIView.animate(withDuration: keyboardDuration) {
+            self.view.layoutIfNeeded()
+        }
     }
     
+    @objc private func handleKeyboardWillHide(notification: Notification) {
+        let keyboardDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as! Double
+        containerViewBottomAnchor?.constant = 0
+        UIView.animate(withDuration: keyboardDuration) {
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    // send message
     @objc private func handleSendButton() {
         guard let toUserID = user?.id else { return }
         let referanceD = Database.database().reference().child("messages")
@@ -100,6 +120,17 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     var separatorViewBottomAnchor: NSLayoutConstraint?
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+//    override var inputAccessoryView: UIView? {
+//        get {
+//            return containerView
+//        }
+//    }
+    
+    override var canBecomeFirstResponder: Bool {
         return true
     }
     
