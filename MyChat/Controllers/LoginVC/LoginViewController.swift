@@ -63,6 +63,7 @@ class LoginViewController: UIViewController {
         textField.placeholder = "Enter your email"
         textField.backgroundColor = .white
         textField.layer.cornerRadius = 5
+        textField.keyboardType = .emailAddress
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return textField
     }()
@@ -187,6 +188,16 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setViews()
+        hideKeyboard()
+    }
+    
+    private func hideKeyboard() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleHideKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func handleHideKeyboard() {
+        view.endEditing(true)
     }
     
     //MARK: - Settings view

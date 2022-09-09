@@ -18,7 +18,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
             //observeMessages()
         }
     }
-    
+    // replace the image in button
     var messages = [Messages]()
     
     private lazy var collectionView: UICollectionView = {
@@ -37,7 +37,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     
     private lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemGray6
+        view.backgroundColor = .systemGray4
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -53,8 +53,19 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     private lazy var messageTextField: UITextField = {
         let textField = UITextField()
         textField.placeholder = "Enter message"
+        textField.backgroundColor = .white
+        textField.layer.cornerRadius = 8
+        textField.clipsToBounds = true
         textField.delegate = self
         return textField
+    }()
+    
+    private lazy var imageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "iconPlaceholder"), for: .normal)
+        button.layer.cornerRadius = 5
+        button.clipsToBounds = true
+        return button
     }()
     
     private lazy var separator = UIView.horizontalSeparator(.gray, height: 3)
@@ -160,7 +171,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     
     private func setViews() {
         view.addSubviews([collectionView, containerView])
-        containerView.addSubviews([sendButton, messageTextField])
+        containerView.addSubviews([sendButton, messageTextField, imageButton])
         setLayouts()
     }
     
@@ -177,15 +188,21 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         containerView.heightAnchor.constraint(equalToConstant: 70).isActive = true
         //
         sendButton.snp.makeConstraints {
-            $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(-30)
+            $0.top.equalToSuperview().offset(10)
+            $0.trailing.equalToSuperview().offset(-20)
             $0.height.equalTo(30)
             $0.width.equalTo(50)
         }
         messageTextField.snp.makeConstraints {
-            $0.left.equalToSuperview().offset(8)
-            $0.centerY.equalToSuperview()
+            $0.top.equalToSuperview().offset(10)
+            $0.height.equalTo(30)
+            $0.leading.equalTo(imageButton.snp.trailing).offset(10)
             $0.trailing.equalTo(sendButton.snp.leading).offset(-8)
+        }
+        imageButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(10)
+            $0.leading.equalToSuperview().offset(7)
+            $0.width.height.equalTo(30)
         }
     }
     
@@ -204,11 +221,11 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
         let messages = messages[indexPath.row]
         cell.bubbleWidthAnchor?.constant = estemateText(messages.text ?? "").width + 30
         cell.configure(with: messages)
-        self.setupCellColor(cell, messages: messages)
+        self.setupCell(cell, messages: messages)
         return cell
     }
     
-    private func setupCellColor(_ cell: ChatCollectionViewCell, messages: Messages) {
+    private func setupCell(_ cell: ChatCollectionViewCell, messages: Messages) {
         if messages.fromUserID == Auth.auth().currentUser?.uid {
             cell.bubbleView.backgroundColor = ChatCollectionViewCell.colorBuubleView
             cell.bubbleRightAnchor?.isActive = true
