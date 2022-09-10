@@ -9,8 +9,9 @@ import UIKit
 import SnapKit
 import FirebaseDatabase
 import FirebaseAuth
+import FirebaseStorage
 
-class ChatLogController: UIViewController, UITextFieldDelegate {
+class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     var user: Users? {
         didSet {
@@ -18,7 +19,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
             //observeMessages()
         }
     }
-    // replace the image in button
+    
     var messages = [Messages]()
     
     private lazy var collectionView: UICollectionView = {
@@ -62,9 +63,10 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
     
     private lazy var imageButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "iconPlaceholder"), for: .normal)
+        button.setImage(UIImage(named: "imageIcon"), for: .normal)
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
+        button.addTarget(self, action: #selector(handleSendImage), for: .touchUpInside)
         return button
     }()
     
@@ -114,10 +116,12 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
         guard let message = messageTextField.text else { return }
         guard let fromUserID = Auth.auth().currentUser?.uid else { return }
         let timeStamp = NSDate().timeIntervalSince1970
-        let values = ["text": message, "toUserID": toUserID,
-                      "fromUserID": fromUserID, "timeStamp": timeStamp] as [String: Any]
-        childReferance.updateChildValues(values)
-        messageTextField.text = nil
+        if self.messageTextField.text?.isEmpty == false {
+            let values = ["text": message, "toUserID": toUserID,
+                          "fromUserID": fromUserID, "timeStamp": timeStamp] as [String: Any]
+            childReferance.updateChildValues(values)
+            messageTextField.text = nil
+        }
     }
     
     private func estemateText(_ text: String) -> CGRect {
@@ -157,11 +161,11 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
             let userMessages = try? JSONDecoder().decode(Messages.self, from: data)
             guard let userMessages = userMessages else { return }
             if self.user?.id == userMessages.chatPartner() {
-                print("---", userMessages.text!)
-                self.messages.append(userMessages)
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
+                    print("---", userMessages.text ?? "nil")
+                    self.messages.append(userMessages)
+                    DispatchQueue.main.async {
+                        self.collectionView.reloadData()
+                    }
             }
         } withCancel: { _ in
         }
@@ -204,6 +208,57 @@ class ChatLogController: UIViewController, UITextFieldDelegate {
             $0.leading.equalToSuperview().offset(7)
             $0.width.height.equalTo(30)
         }
+    }
+ 
+    // MARK: - send image
+
+    @objc private func handleSendImage() {
+        let picker = UIImagePickerController()
+        picker.delegate = self
+        picker.isEditing = true
+        present(picker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        picker.dismiss(animated: true)
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        self.uploadFirebaseStorageImage(image)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        dismiss(animated: true)
+    }
+    
+   private func uploadFirebaseStorageImage(_ image: UIImage) {
+        let imageName = UUID().uuidString
+        let referance = Storage.storage().reference().child("message_images").child(imageName)
+        guard let uploadData = image.jpegData(compressionQuality: 0.4) else { return }
+        referance.putData(uploadData, metadata: nil) { metaData, error in
+            if error != nil {
+                print("---Error send image")
+                return
+            }
+            referance.downloadURL { url, error in
+                if error != nil {
+                    print("---Error url")
+                    return
+                }
+                guard let url = url?.absoluteString else { return }
+                self.sendImageWithUrl(url)
+            }
+        }
+    }
+    
+    private func sendImageWithUrl(_ imageURL: String) {
+        let ref = Database.database().reference().child("messages")
+        let childRef = ref.childByAutoId()
+        let toUserID = user?.id ?? "nil user id"
+        let fromUserID = Auth.auth().currentUser?.uid ?? "nil uid"
+        let timeStamp = Date().timeIntervalSince1970
+        
+        let values = ["imageURL": imageURL, "toUserID": toUserID,
+                      "fromUserID": fromUserID, "timeStamp": timeStamp] as [String : Any]
+        childRef.updateChildValues(values)
     }
     
 }

@@ -3,7 +3,7 @@
 //  MyChat
 //
 //  Created by Zaur on 03.09.2022.
-//
+// 26 : 46 video
 
 import UIKit
 import SnapKit
@@ -32,6 +32,13 @@ class ChatCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
+    lazy var messageImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        //imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
+    
     //MARK: - init
     
     override init(frame: CGRect) {
@@ -54,6 +61,7 @@ class ChatCollectionViewCell: UICollectionViewCell {
     
     private func setViews() {
         contentView.addSubviews([bubbleView ,textView])
+        bubbleView.addSubview(messageImage)
         setLayouts()
     }
     
@@ -75,6 +83,11 @@ class ChatCollectionViewCell: UICollectionViewCell {
         textView.topAnchor.constraint(equalTo: self.topAnchor).isActive = true
         textView.rightAnchor.constraint(equalTo: bubbleView.rightAnchor).isActive = true
         textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
+        //
+        messageImage.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+        
     }
     
 }
