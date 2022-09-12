@@ -161,7 +161,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
             let userMessages = try? JSONDecoder().decode(Messages.self, from: data)
             guard let userMessages = userMessages else { return }
             if self.user?.id == userMessages.chatPartner() {
-                    print("---", userMessages.text ?? "nil")
+                    //print("---", userMessages.text ?? "nil")
                     self.messages.append(userMessages)
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
@@ -281,6 +281,13 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     private func setupCell(_ cell: ChatCollectionViewCell, messages: Messages) {
+        guard let imageURL = messages.imageURL else { return }
+        if let url = URL(string: imageURL) {
+            cell.messageImage.sd_setImage(with: url)
+            cell.messageImage.isHidden = false
+        } else {
+            cell.messageImage.isHidden = true
+        }
         if messages.fromUserID == Auth.auth().currentUser?.uid {
             cell.bubbleView.backgroundColor = ChatCollectionViewCell.colorBuubleView
             cell.bubbleRightAnchor?.isActive = true

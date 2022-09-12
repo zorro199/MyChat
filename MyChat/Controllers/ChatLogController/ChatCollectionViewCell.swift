@@ -3,10 +3,11 @@
 //  MyChat
 //
 //  Created by Zaur on 03.09.2022.
-// 26 : 46 video
+//
 
 import UIKit
 import SnapKit
+import SDWebImage
 
 class ChatCollectionViewCell: UICollectionViewCell {
     
@@ -34,8 +35,8 @@ class ChatCollectionViewCell: UICollectionViewCell {
     
     lazy var messageImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        //imageView.contentMode = .scaleAspectFill
+        //imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     
@@ -54,6 +55,9 @@ class ChatCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: Messages) {
         guard let text = model.text else { return }
+       // guard let url = URL(string: imageURL) else { return }
+        //messageImage.sd_setImage(with: url)
+        //print("url", url)
         textView.text = text
     }
     

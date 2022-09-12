@@ -13,6 +13,7 @@ struct Messages: Codable {
     let text: String?
     let timeStamp: Double?
     let toUserID: String?
+    let imageURL: String?
     
     func chatPartner() -> String? {
         return fromUserID == Auth.auth().currentUser?.uid ? toUserID : fromUserID
