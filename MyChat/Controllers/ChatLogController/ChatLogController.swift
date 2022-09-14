@@ -161,7 +161,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
             let userMessages = try? JSONDecoder().decode(Messages.self, from: data)
             guard let userMessages = userMessages else { return }
             if self.user?.id == userMessages.chatPartner() {
-                    //print("---", userMessages.text ?? "nil")
+                    print("---", userMessages.text ?? "nil")
                     self.messages.append(userMessages)
                     DispatchQueue.main.async {
                         self.collectionView.reloadData()
@@ -244,20 +244,23 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
                     return
                 }
                 guard let url = url?.absoluteString else { return }
-                self.sendImageWithUrl(url)
+                self.sendImageWithUrl(url, image: image)
             }
         }
     }
     
-    private func sendImageWithUrl(_ imageURL: String) {
+    private func sendImageWithUrl(_ imageURL: String, image: UIImage) {
         let ref = Database.database().reference().child("messages")
         let childRef = ref.childByAutoId()
         let toUserID = user?.id ?? "nil user id"
         let fromUserID = Auth.auth().currentUser?.uid ?? "nil uid"
         let timeStamp = Date().timeIntervalSince1970
-        
-        let values = ["imageURL": imageURL, "toUserID": toUserID,
-                      "fromUserID": fromUserID, "timeStamp": timeStamp] as [String : Any]
+        let values = ["toUserID": toUserID,
+                      "fromUserID": fromUserID,
+                      "timeStamp": timeStamp,
+                      "imageURL": imageURL,
+                      "imageWidth": image.size.width,
+                      "imageHeight": image.size.height] as [String : Any]
         childRef.updateChildValues(values)
     }
     
@@ -275,8 +278,13 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
         }
         let messages = messages[indexPath.row]
         cell.bubbleWidthAnchor?.constant = estemateText(messages.text ?? "").width + 30
+        if messages.imageURL != nil {
+            cell.bubbleWidthAnchor?.constant = 200
+        }
         cell.configure(with: messages)
         self.setupCell(cell, messages: messages)
+        let indexpath = IndexPath(item: self.messages.count - 1, section: 0)
+        self.collectionView.scrollToItem(at: indexpath, at: .bottom, animated: true)
         return cell
     }
     
@@ -305,8 +313,12 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         var height: CGFloat = 80
-        if let messages = messages[indexPath.row].text {
+        
+        let message = messages[indexPath.row]
+        if let messages = message.text {
             height = estemateText(messages).height + 15
+        } else if let imageWidth = message.imageWidth, let imageHeight = message.imageHeight {
+            height = CGFloat(imageHeight / imageWidth * 200)
         }
         return CGSize(width: view.frame.width , height: height)
     }

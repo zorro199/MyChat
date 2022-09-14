@@ -18,6 +18,7 @@ class ChatCollectionViewCell: UICollectionViewCell {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textColor = .white
         textView.backgroundColor = .clear
+        textView.isEditable = false
         textView.font = UIFont.systemFont(ofSize: 16)
         return textView
     }()
