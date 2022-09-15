@@ -7,13 +7,19 @@
 
 import UIKit
 import SnapKit
-import SDWebImage
+import SDWebImage // video 6 : 45
+
+protocol ImageZoomable {
+    func performZoomImage(_ imageView: UIImageView)
+}
 
 class ChatCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "ChatCollectionViewCell"
     
-    private lazy var textView: UITextView = {
+    var delegate: ImageZoomable?
+    
+    lazy var textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textColor = .white
@@ -36,8 +42,10 @@ class ChatCollectionViewCell: UICollectionViewCell {
     
     lazy var messageImage: UIImageView = {
         let imageView = UIImageView()
-        //imageView.contentMode = .scaleAspectFit
         imageView.contentMode = .scaleAspectFill
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapImage))
+        imageView.addGestureRecognizer(tap)
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
@@ -56,17 +64,20 @@ class ChatCollectionViewCell: UICollectionViewCell {
     
     func configure(with model: Messages) {
         guard let text = model.text else { return }
-       // guard let url = URL(string: imageURL) else { return }
-        //messageImage.sd_setImage(with: url)
-        //print("url", url)
         textView.text = text
+    }
+    
+    @objc func handleTapImage(_ gesture: UITapGestureRecognizer) {
+        guard let imageView = gesture.view as? UIImageView else { return }
+        delegate?.performZoomImage(imageView)
+        print(1)
     }
     
     // MARK: - Settings view
     
     private func setViews() {
-        contentView.addSubviews([bubbleView ,textView])
-        bubbleView.addSubview(messageImage)
+        contentView.addSubviews([bubbleView, textView])
+        bubbleView.addSubviews([messageImage])
         setLayouts()
     }
     
@@ -90,7 +101,10 @@ class ChatCollectionViewCell: UICollectionViewCell {
         textView.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         //
         messageImage.snp.makeConstraints {
-            $0.edges.equalToSuperview()
+            $0.left.equalTo(bubbleView.snp.left)
+            $0.right.equalTo(bubbleView.snp.right)
+            $0.top.equalTo(bubbleView.snp.top)
+            $0.bottom.equalTo(bubbleView.snp.bottom)
         }
         
     }

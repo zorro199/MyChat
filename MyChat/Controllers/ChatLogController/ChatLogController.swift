@@ -11,8 +11,8 @@ import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
 
-class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-    
+class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImageZoomable {
+        
     var user: Users? {
         didSet {
             navigationItem.title = user?.name
@@ -89,6 +89,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
     func setupKeyboardObserves() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleKeyboardDidShow), name: UIResponder.keyboardDidShowNotification, object:  nil)
     }
     
     @objc private func handleKeyboardWillShow(notification: Notification) {
@@ -105,6 +106,13 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
         containerViewBottomAnchor?.constant = 0
         UIView.animate(withDuration: keyboardDuration) {
             self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func handleKeyboardDidShow() {
+        if messages.count > 0 {
+            let indexpath = IndexPath(item: self.messages.count - 1, section: 0)
+            self.collectionView.scrollToItem(at: indexpath, at: .bottom, animated: true)
         }
     }
     
@@ -264,6 +272,10 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
         childRef.updateChildValues(values)
     }
     
+    func performZoomImage(_ imageView: UIImageView) {
+        
+    }
+    
 }
 
 extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -276,13 +288,17 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ChatCollectionViewCell.reuseID, for: indexPath) as? ChatCollectionViewCell else {
             return UICollectionViewCell()
         }
+        cell.delegate = self
         let messages = messages[indexPath.row]
-        cell.bubbleWidthAnchor?.constant = estemateText(messages.text ?? "").width + 30
-        if messages.imageURL != nil {
+        self.setupCell(cell, messages: messages)
+        if let text = messages.text {
+            cell.bubbleWidthAnchor?.constant = estemateText(text).width + 30
+            cell.textView.isHidden = false
+        } else if messages.imageURL != nil {
             cell.bubbleWidthAnchor?.constant = 200
+            cell.textView.isHidden = true
         }
         cell.configure(with: messages)
-        self.setupCell(cell, messages: messages)
         let indexpath = IndexPath(item: self.messages.count - 1, section: 0)
         self.collectionView.scrollToItem(at: indexpath, at: .bottom, animated: true)
         return cell
@@ -324,3 +340,6 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
 }
+
+
+// bag in background textView
