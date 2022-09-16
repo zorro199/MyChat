@@ -21,13 +21,13 @@
 		C1A8224E28B68D6000FF500F /* Extension + Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A8224D28B68D6000FF500F /* Extension + Separator.swift */; };
 		C1A92A0D28AFF8A800F8B9A6 /* UsersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */; };
 		C1A92A0F28B003EC00F8B9A6 /* LoginViewController+Handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */; };
-		C1A9823628C6418B00F7926E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1A9823528C6418B00F7926E /* GoogleService-Info.plist */; };
 		C1AAF0B728B8F37900210B1D /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AAF0B628B8F37900210B1D /* Messages.swift */; };
 		C1AB6B6C28B2B35500E9BA55 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = C1AB6B6B28B2B35500E9BA55 /* SDWebImage */; };
 		C1AB6B6E28B2B35500E9BA55 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = C1AB6B6D28B2B35500E9BA55 /* SDWebImageMapKit */; };
 		C1AB8DDD28AE94050070974B /* NewMessageVewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */; };
 		C1AB8DE028AEC7FF0070974B /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1AB8DDF28AEC7FF0070974B /* Users.swift */; };
 		C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C1ABC41B28A95E250050F967 /* Assets.xcassets */; };
+		C1ABE1E528D4AC4500FC5B8B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C1ABE1E428D4AC4500FC5B8B /* GoogleService-Info.plist */; };
 		C1AD34D128AAB3A8001C04B4 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D028AAB3A8001C04B4 /* FirebaseAnalytics */; };
 		C1AD34D928AAB3A8001C04B4 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34D828AAB3A8001C04B4 /* FirebaseAuth */; };
 		C1AD34E128AAB3A8001C04B4 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = C1AD34E028AAB3A8001C04B4 /* FirebaseFirestore */; };
@@ -53,11 +53,11 @@
 		C1A8224D28B68D6000FF500F /* Extension + Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension + Separator.swift"; sourceTree = "<group>"; };
 		C1A92A0C28AFF8A800F8B9A6 /* UsersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersTableViewCell.swift; sourceTree = "<group>"; };
 		C1A92A0E28B003EC00F8B9A6 /* LoginViewController+Handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LoginViewController+Handler.swift"; sourceTree = "<group>"; };
-		C1A9823528C6418B00F7926E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C1AAF0B628B8F37900210B1D /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		C1AB8DDC28AE94040070974B /* NewMessageVewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewMessageVewController.swift; sourceTree = "<group>"; };
 		C1AB8DDF28AEC7FF0070974B /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		C1ABC41B28A95E250050F967 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C1ABE1E428D4AC4500FC5B8B /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +116,7 @@
 				C1861A6628A80DD5005D44AF /* Extensions */,
 				C1861A5728A7FC86005D44AF /* LaunchScreen.storyboard */,
 				C1ABC41B28A95E250050F967 /* Assets.xcassets */,
-				C1A9823528C6418B00F7926E /* GoogleService-Info.plist */,
+				C1ABE1E428D4AC4500FC5B8B /* GoogleService-Info.plist */,
 				C1861A5A28A7FC86005D44AF /* Info.plist */,
 			);
 			path = MyChat;
@@ -258,7 +258,7 @@
 			files = (
 				C1ABC41C28A95E250050F967 /* Assets.xcassets in Resources */,
 				C1861A5928A7FC86005D44AF /* LaunchScreen.storyboard in Resources */,
-				C1A9823628C6418B00F7926E /* GoogleService-Info.plist in Resources */,
+				C1ABE1E528D4AC4500FC5B8B /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,10 +422,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UK44N54ZMP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -449,10 +451,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = UK44N54ZMP;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MyChat/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;

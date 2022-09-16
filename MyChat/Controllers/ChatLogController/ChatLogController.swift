@@ -10,6 +10,8 @@ import SnapKit
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
+import MobileCoreServices
+import AVFoundation
 
 class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImageZoomable {
         
@@ -224,6 +226,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
         let picker = UIImagePickerController()
         picker.delegate = self
         picker.isEditing = true
+        picker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
         present(picker, animated: true)
     }
     
@@ -272,8 +275,52 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
         childRef.updateChildValues(values)
     }
     
+    //MARK: - setting zoom image
+    var startingFrame: CGRect?
+    var blackBackgroundView: UIView?
+    var startingImageView: UIImageView?
+    
     func performZoomImage(_ imageView: UIImageView) {
+        startingImageView = imageView
+        startingImageView?.isHidden = true
+        startingFrame = imageView.superview?.convert(imageView.frame, to: nil)
+        //
+        let zoomingImageView = UIImageView(frame: startingFrame!)
+        zoomingImageView.image = imageView.image
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleBackZoom))
+        zoomingImageView.addGestureRecognizer(tap)
+        zoomingImageView.isUserInteractionEnabled = true
+        //
+        if let keyWindow = UIApplication.shared.keyWindow {
+            blackBackgroundView = UIView(frame: keyWindow.frame)
+            blackBackgroundView?.backgroundColor = .black
+            blackBackgroundView?.alpha = 0
+            keyWindow.addSubview(blackBackgroundView!)
+            keyWindow.addSubview(zoomingImageView)
+            //
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+                self.blackBackgroundView?.alpha = 1
+                self.containerView.alpha = 0
+                let height = self.startingFrame!.height / self.startingFrame!.width * keyWindow.frame.width
+                zoomingImageView.frame = CGRect(x: 0, y: 0, width: keyWindow.frame.width, height: height)
+                zoomingImageView.center = keyWindow.center
+            }, completion: nil)
+        }
+    }
+    
+    @objc private func handleBackZoom(_ tap: UITapGestureRecognizer) {
+        guard let zoomOutImageView = tap.view as? UIImageView else { return }
+        zoomOutImageView.layer.cornerRadius = 16
+        zoomOutImageView.clipsToBounds = true
         
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut) {
+            zoomOutImageView.frame = self.startingFrame!
+            self.blackBackgroundView?.alpha = 0
+            self.containerView.alpha = 1
+        } completion: { _ in
+            zoomOutImageView.removeFromSuperview()
+            self.startingImageView?.isHidden = false
+        }
     }
     
 }
@@ -290,7 +337,6 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
         }
         cell.delegate = self
         let messages = messages[indexPath.row]
-        self.setupCell(cell, messages: messages)
         if let text = messages.text {
             cell.bubbleWidthAnchor?.constant = estemateText(text).width + 30
             cell.textView.isHidden = false
@@ -298,6 +344,7 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.bubbleWidthAnchor?.constant = 200
             cell.textView.isHidden = true
         }
+        self.setupCell(cell, messages: messages)
         cell.configure(with: messages)
         let indexpath = IndexPath(item: self.messages.count - 1, section: 0)
         self.collectionView.scrollToItem(at: indexpath, at: .bottom, animated: true)
@@ -305,13 +352,6 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
     private func setupCell(_ cell: ChatCollectionViewCell, messages: Messages) {
-        guard let imageURL = messages.imageURL else { return }
-        if let url = URL(string: imageURL) {
-            cell.messageImage.sd_setImage(with: url)
-            cell.messageImage.isHidden = false
-        } else {
-            cell.messageImage.isHidden = true
-        }
         if messages.fromUserID == Auth.auth().currentUser?.uid {
             cell.bubbleView.backgroundColor = ChatCollectionViewCell.colorBuubleView
             cell.bubbleRightAnchor?.isActive = true
@@ -320,6 +360,13 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
             cell.bubbleView.backgroundColor = .gray
             cell.bubbleRightAnchor?.isActive = false
             cell.bubbleLeftAnchor?.isActive = true
+        }
+        guard let imageURL = messages.imageURL else { return }
+        if let url = URL(string: imageURL) {
+            cell.messageImage.sd_setImage(with: url)
+            cell.messageImage.isHidden = false
+        } else {
+            cell.messageImage.isHidden = true
         }
     }
     

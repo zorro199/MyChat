@@ -62,7 +62,7 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
     }
 
     private func registerWithUserUID(uid: String, value: [String: Any]) {
-        let refernces = Database.database().reference(fromURL: "https://mychat-d7b2e-default-rtdb.firebaseio.com/")
+        let refernces = Database.database().reference(fromURL: "https://mychat-4ba3e-default-rtdb.firebaseio.com/")
         let userRefernce = refernces.child("users").child(uid)
         userRefernce.updateChildValues(value) { error, refernces in
             if error != nil {

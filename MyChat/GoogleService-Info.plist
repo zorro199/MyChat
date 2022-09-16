@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>470682988811-8eng9jgesg8htvjugcgnasqgkstc91mq.apps.googleusercontent.com</string>
+	<string>125395294606-0osud8kskn7di8m97qtnhvae7eoia0kb.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.470682988811-8eng9jgesg8htvjugcgnasqgkstc91mq</string>
+	<string>com.googleusercontent.apps.125395294606-0osud8kskn7di8m97qtnhvae7eoia0kb</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDmdDux3NlYPZxZopR075VaRlOcSI9FDQk</string>
+	<string>AIzaSyBRjg7vvs1JH8Zh1oeWXaUtS2JpiPRl8sM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>470682988811</string>
+	<string>125395294606</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>zorro.MyChat</string>
 	<key>PROJECT_ID</key>
-	<string>mychat-d7b2e</string>
+	<string>mychat-4ba3e</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mychat-d7b2e.appspot.com</string>
+	<string>mychat-4ba3e.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:470682988811:ios:d8df8949cf276392ed720e</string>
+	<string>1:125395294606:ios:6178ea4001dde1eeec6cdf</string>
 </dict>
 </plist>

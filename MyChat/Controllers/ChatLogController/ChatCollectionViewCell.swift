@@ -7,7 +7,7 @@
 
 import UIKit
 import SnapKit
-import SDWebImage // video 6 : 45
+import SDWebImage
 
 protocol ImageZoomable {
     func performZoomImage(_ imageView: UIImageView)
@@ -70,7 +70,6 @@ class ChatCollectionViewCell: UICollectionViewCell {
     @objc func handleTapImage(_ gesture: UITapGestureRecognizer) {
         guard let imageView = gesture.view as? UIImageView else { return }
         delegate?.performZoomImage(imageView)
-        print(1)
     }
     
     // MARK: - Settings view

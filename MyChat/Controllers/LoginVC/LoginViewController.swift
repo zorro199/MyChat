@@ -211,13 +211,13 @@ class LoginViewController: UIViewController {
     
     private func setLayouts() {
         imageAvatar.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(100)
+            $0.top.equalToSuperview().offset(80)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(160)
             $0.height.equalTo(160)
         }
         loginSegmentController.snp.makeConstraints {
-            $0.top.equalTo(imageAvatar.snp.bottom).offset(50)
+            $0.top.equalTo(imageAvatar.snp.bottom).offset(30)
             $0.width.equalTo(200)
             $0.height.equalTo(30)
             $0.centerX.equalToSuperview()
