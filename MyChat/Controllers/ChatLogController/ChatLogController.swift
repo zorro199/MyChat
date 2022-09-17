@@ -232,12 +232,58 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true)
-        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-        self.uploadFirebaseStorageImage(image)
+        if let videoUrl = info[UIImagePickerController.InfoKey.mediaURL] as? URL {
+            self.handleVideoSelectedUrl(videoUrl)
+        } else {
+            guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+            self.uploadFirebaseStorageImage(image)
+        }
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true)
+    }
+    
+    private func handleVideoSelectedUrl(_ url: URL) {
+        let fileName = UUID().uuidString + ".MOV"
+        let ref = Storage.storage().reference().child("message_video").child(fileName)
+//        ref.putFile(from: url, metadata: nil) { metadata, error in
+//            if error != nil {
+//                print("--Error video storage", error?.localizedDescription ?? "")
+//                return
+//            }
+//            ref.downloadURL { videoUrl, error in
+//                if error != nil {
+//                    print(error?.localizedDescription ?? "")
+//                    return
+//                }
+//                if let videoUrl = videoUrl?.absoluteString {
+//                    print(videoUrl)
+//                }
+//            }
+//        }
+        
+        var videoData : Data = Data()
+                
+                do
+                {
+                    videoData = try Data(contentsOf: url)
+                }
+                catch
+                {
+                    print(error.localizedDescription)
+                    return
+                }
+                
+                ref.putData(videoData, metadata: nil) { (metaData, error) in
+                    guard error == nil else
+                    {
+                        print(error?.localizedDescription ?? "")
+                        return
+                    }
+                    print("works") // check this
+                }
+        
     }
     
    private func uploadFirebaseStorageImage(_ image: UIImage) {
