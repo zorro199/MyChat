@@ -10,7 +10,7 @@ import SnapKit
 import FirebaseDatabase
 import FirebaseAuth
 import FirebaseStorage
-import MobileCoreServices
+import MobileCoreServices // 17 : 50 video
 import AVFoundation
 
 class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, ImageZoomable {
@@ -236,7 +236,9 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
             self.handleVideoSelectedUrl(videoUrl)
         } else {
             guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-            self.uploadFirebaseStorageImage(image)
+            self.uploadFirebaseStorageImage(image) { imageUrl in
+                self.sendImageWithUrl(imageUrl, image: image)
+            }
         }
     }
     
@@ -244,49 +246,60 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
         dismiss(animated: true)
     }
     
-    private func handleVideoSelectedUrl(_ url: URL) {
+    private func handleVideoSelectedUrl(_ videoUrl: URL?) {
         let fileName = UUID().uuidString + ".MOV"
         let ref = Storage.storage().reference().child("message_video").child(fileName)
-//        ref.putFile(from: url, metadata: nil) { metadata, error in
-//            if error != nil {
-//                print("--Error video storage", error?.localizedDescription ?? "")
-//                return
-//            }
-//            ref.downloadURL { videoUrl, error in
-//                if error != nil {
-//                    print(error?.localizedDescription ?? "")
-//                    return
-//                }
-//                if let videoUrl = videoUrl?.absoluteString {
-//                    print(videoUrl)
-//                }
-//            }
-//        }
         
         var videoData : Data = Data()
-                
-                do
-                {
-                    videoData = try Data(contentsOf: url)
+        do {
+            videoData = try Data(contentsOf: videoUrl!)
+        }
+        catch {
+            print(error.localizedDescription)
+            return
+        }
+        ref.putData(videoData, metadata: nil) { (metaData, error) in
+            guard error == nil
+            else {
+                print(error?.localizedDescription ?? "")
+                return
+            }
+            guard let video = videoUrl?.absoluteString else { return }
+            guard let videoUrl = videoUrl else { return }
+            if let cgImage = self.imageForVideoUrl(videoUrl) {
+                self.uploadFirebaseStorageImage(cgImage) { url in
+                    let ref = Database.database().reference().child("messages")
+                    let childRef = ref.childByAutoId()
+                    let toUserID = self.user?.id ?? "nil user id"
+                    let fromUserID = Auth.auth().currentUser?.uid ?? "nil uid"
+                    let timeStamp = Date().timeIntervalSince1970
+                    let values =  ["fromUserID": fromUserID,
+                                   "toUserID": toUserID,
+                                   "timeStamp": timeStamp,
+                                   "videoUrl": video,
+                                   "imageURL": url,
+                                   "imageWidth": cgImage.size.width,
+                                   "imageHeight": cgImage.size.height] as [String: Any]
+                    childRef.updateChildValues(values)
                 }
-                catch
-                {
-                    print(error.localizedDescription)
-                    return
-                }
-                
-                ref.putData(videoData, metadata: nil) { (metaData, error) in
-                    guard error == nil else
-                    {
-                        print(error?.localizedDescription ?? "")
-                        return
-                    }
-                    print("works") // check this
-                }
-        
+            }
+        }
     }
     
-   private func uploadFirebaseStorageImage(_ image: UIImage) {
+    private func imageForVideoUrl(_ videoData: URL) -> UIImage? {
+        let asset = AVAsset(url: videoData)
+        let imageGenerator = AVAssetImageGenerator(asset: asset)
+        do {
+            let cgImage = try imageGenerator.copyCGImage(at: CMTime(value: 1, timescale: 60), actualTime: nil)
+            let imageVideo = UIImage(cgImage: cgImage)
+            return imageVideo
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    private func uploadFirebaseStorageImage(_ image: UIImage, completion: @escaping (String) -> () ) {
         let imageName = UUID().uuidString
         let referance = Storage.storage().reference().child("message_images").child(imageName)
         guard let uploadData = image.jpegData(compressionQuality: 0.4) else { return }
@@ -301,7 +314,7 @@ class ChatLogController: UIViewController, UITextFieldDelegate, UIImagePickerCon
                     return
                 }
                 guard let url = url?.absoluteString else { return }
-                self.sendImageWithUrl(url, image: image)
+                completion(url)
             }
         }
     }
@@ -433,6 +446,3 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
     }
     
 }
-
-
-// bag in background textView
