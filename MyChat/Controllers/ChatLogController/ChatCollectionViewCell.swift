@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import SDWebImage
+import AVFoundation
 
 protocol ImageZoomable {
     func performZoomImage(_ imageView: UIImageView)
@@ -18,6 +19,57 @@ class ChatCollectionViewCell: UICollectionViewCell {
     static let reuseID = "ChatCollectionViewCell"
     
     var delegate: ImageZoomable?
+    
+    var message: Messages?
+    
+    var activityIndicator: UIActivityIndicatorView = {
+        let aiv = UIActivityIndicatorView(style: .large)
+        aiv.hidesWhenStopped = true
+        return aiv
+    }()
+    
+    lazy var playButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "play"), for: .normal)
+        button.addTarget(self, action: #selector(handlePlayVideo), for: .touchUpInside)
+        return button
+    }()
+    
+    lazy var pauseButton: UIButton = {
+        let button = UIButton()
+        button.addTarget(self, action: #selector(handlePauseVideo), for: .touchUpInside)
+        button.isHidden = true
+        return button
+    }()
+    
+    var playerLayer: AVPlayerLayer?
+    var player: AVPlayer?
+    
+    @objc private func handlePlayVideo() {
+        guard let videoUrl = message?.videoUrl, let url = URL(string: videoUrl) else { return }
+        player = AVPlayer(url: url)
+        playerLayer = AVPlayerLayer(player: player)
+        playerLayer?.frame = self.bubbleView.bounds
+        bubbleView.layer.addSublayer(playerLayer!)
+        player?.play()
+        activityIndicator.startAnimating()
+        self.playButton.isHidden = true
+        self.pauseButton.isHidden = false
+    }
+    
+    @objc private func handlePauseVideo() {
+        player?.pause()
+        activityIndicator.stopAnimating()
+        self.playButton.isHidden = false
+        self.pauseButton.isHidden = true
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        playerLayer?.removeAllAnimations()
+        player?.pause()
+        activityIndicator.stopAnimating()
+    }
     
     lazy var textView: UITextView = {
         let textView = UITextView()
@@ -68,6 +120,9 @@ class ChatCollectionViewCell: UICollectionViewCell {
     }
     
     @objc func handleTapImage(_ gesture: UITapGestureRecognizer) {
+        if message?.videoUrl != nil {
+            return
+        }
         guard let imageView = gesture.view as? UIImageView else { return }
         delegate?.performZoomImage(imageView)
     }
@@ -76,7 +131,7 @@ class ChatCollectionViewCell: UICollectionViewCell {
     
     private func setViews() {
         contentView.addSubviews([bubbleView, textView])
-        bubbleView.addSubviews([messageImage])
+        bubbleView.addSubviews([messageImage, playButton, activityIndicator, pauseButton])
         setLayouts()
     }
     
@@ -104,6 +159,18 @@ class ChatCollectionViewCell: UICollectionViewCell {
             $0.right.equalTo(bubbleView.snp.right)
             $0.top.equalTo(bubbleView.snp.top)
             $0.bottom.equalTo(bubbleView.snp.bottom)
+        }
+        playButton.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            $0.height.width.equalTo(50)
+        }
+        pauseButton.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            $0.height.width.equalTo(50)
+        }
+        activityIndicator.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+            $0.height.width.equalTo(50)
         }
         
     }

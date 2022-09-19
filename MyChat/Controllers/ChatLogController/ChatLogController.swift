@@ -396,6 +396,7 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
         }
         cell.delegate = self
         let messages = messages[indexPath.row]
+        cell.message = messages
         if let text = messages.text {
             cell.bubbleWidthAnchor?.constant = estemateText(text).width + 30
             cell.textView.isHidden = false
@@ -407,6 +408,7 @@ extension ChatLogController: UICollectionViewDelegate, UICollectionViewDataSourc
         cell.configure(with: messages)
         let indexpath = IndexPath(item: self.messages.count - 1, section: 0)
         self.collectionView.scrollToItem(at: indexpath, at: .bottom, animated: true)
+        cell.playButton.isHidden = messages.videoUrl == nil
         return cell
     }
     

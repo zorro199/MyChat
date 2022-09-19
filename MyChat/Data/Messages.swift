@@ -14,6 +14,7 @@ struct Messages: Codable {
     let timeStamp: Double?
     let toUserID: String?
     let imageURL: String?
+    let videoUrl: String?
     let imageWidth: Float?
     let imageHeight: Float?
     
